@@ -1,0 +1,195 @@
+\documentclass[]{myarticle}
+
+\usepackage{mlbasemath}
+\usepackage{mlcomplessita}
+
+\makeatletter
+\DeclareRobustCommand{\rvdots}{%
+  \vbox{
+    \baselineskip4\p@\lineskiplimit\z@
+    \kern-\p@
+    \hbox{.}\hbox{.}\hbox{.}
+  }}
+\makeatother
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
+\usetikzlibrary{shapes,arrows,positioning,automata}
+
+\author{Gabriele Atria \and Michele Laurenti}
+
+\begin{document}
+
+\title{Primo homework}
+\maketitle
+
+\section{Algoritmo ideale}
+
+Trovare una password a forza bruta, conoscendone solo l'hash, equivale a cercare una stringa di lunghezza non determinata su un alfabeto.
+Chiamiamo $\Sigma$ l'alfabeto su cui \`e costruita la stringa, e $\xi = \abs{\Sigma}$ il numero di caratteri nell'alfabeto.
+La password che cerchiamo \`e una parola di $\Sigma^{\star}$ (l'insieme di tutte le parole costruite sull'alfabeto $\Sigma$).
+
+L'idea algoritmica \`e la seguente: si enumerano tutte le stringhe in ordine quasi lessicografico (ordinandole prima per lunghezza, poi lessicograficamente), e si controlla se ciascuna di queste \`e la password cercata.
+Se $n$ \`e la lunghezza della password, questo approccio permette di trovarla controllando non pi\`u di $\sum_{i = 1}^{n} \xi^i \simeq \xi^n$ stringhe.
+
+Un'implementazione algoritmica \`e scegliere di creare un numero ``infinito'' di thread, assegnando a ciascuno una parola, e schedulare per primi i thread a cui \`e stata data una parola che viene prima nel nostro ordinamento.
+Il programma temrina nel momento in cui un thread trova la stringa corrispondente alla password.
+Il DAG di esecuzione di questo algoritmo sar\`a un albero con due livelli, e infiniti nodi sul secondo livello.
+
+Con un solo processore a disposizione l'algoritmo visita i nodi da quello corrispondente alla parola pi\`u piccola a quello della password.
+Possiamo quindi vedere il DAG con un solo processore come un cammino (figura \ref{fig:dag_seq}).
+Assumendo che controllare se una stringa corrisponde alla password cercata abbia costo costante, il \emph{work} (tempo di esecuzione sequenziale) \`e $\bigo{\xi^n}$.
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[auto,semithick,node distance=.75cm]
+		\node[circle,draw,label=left:a] (q0) {};
+		\node[circle,draw,below of=q0,label=left:b] (q1) {};
+		\node[circle,draw,below of=q1,label=left:c] (q2) {};
+		\node[circle,draw,below of=q2,label=left:d] (q3) {};
+		\node[below of=q3] (dots) {$\rvdots$};
+		\node[circle,double,draw,below of=dots,label=left:miapass1] (qn) {};
+
+		\node[right of=q0] (q0d) {};
+		\node[right of=qn] (qnd) {};
+
+		\draw (q0) -> (q1);
+		\draw (q1) -> (q2);
+		\draw (q2) -> (q3);
+		\draw (q3) -> (dots);
+		\draw (dots) -> (qn);
+		\draw [decorate,decoration={brace,amplitude=10pt}]
+		(q0d) -- (qnd) node [black,midway,xshift=0.6cm]
+		{$\simeq \xi^{n}$};
+	\end{tikzpicture}
+	\caption{Il DAG di esecuzione dell'algoritmo sequenziale viene percorso come se fosse un cammino lungo circa $\xi^n$.}
+	\label{fig:dag_seq}
+\end{figure}
+
+Con $p$ processori, invece, il DAG di esecuzione di questo algoritmo possiamo vederlo come un albero con $p$ figli, e ciascuno di questi figli \`e radice di un cammino lungo $\frac{\xi^n}{p}$ (figura \ref{fig:dag_par_p_proc}).
+
+\begin{figure*}[th]
+	\centering
+	\begin{tikzpicture}[auto,semithick,node distance=.75cm]
+		\node[circle,draw] (q0) {};
+		\node[circle,draw,below of=q0,label=left:c] (q11) {};
+		\node[circle,draw,node distance=2.5cm,left of=q11,label=left:b] (q21) {};
+		\node[circle,draw,node distance=2.5cm,left of=q21,label=left:a] (q31) {};
+		\node[right of=q11,node distance=2.2cm] (dots) {$\dots$};
+		\node[circle,draw,node distance=2.2cm,right of=dots,label=right:abc] (q41) {};
+
+		\node[circle,draw,below of=q31,label=left:cdef] (q32) {};
+		\node[below of=q32] (3dots) {$\rvdots$};
+		\node[circle,draw,below of=3dots,label=left:miapassz] (q3n) {};
+
+		\node[circle,draw,below of=q21,label=left:cdeg] (q22) {};
+		\node[below of=q22] (2dots) {$\rvdots$};
+		\node[circle,draw,below of=2dots,label=left:miapass0] (q2n) {};
+
+		\node[circle,draw,below of=q11,label=left:cdeh] (q12) {};
+		\node[below of=q12] (1dots) {$\rvdots$};
+		\node[circle,double,draw,below of=1dots,label=left:miapass1] (q1n) {};
+
+		\node[circle,draw,below of=q41,label=right:b6mk] (q42) {};
+		\node[below of=q42] (4dots) {$\rvdots$};
+		\node[circle,draw,below of=4dots,label=right:miapastv] (q4n) {};
+
+		\node[right of=q12,node distance=2.2cm] (dots1) {$\dots$};
+		\node[right of=q1n,node distance=2.2cm] (dots2) {$\dots$};
+
+		\draw (q0) -> (q11);
+		\draw (q0) -> (q21);
+		\draw (q0) -> (q31);
+		\draw (q0) -> (q41);
+
+		\draw (q11) -> (q12) -> (1dots) -> (q1n);
+		\draw (q21) -> (q22) -> (2dots) -> (q2n);
+		\draw (q31) -> (q32) -> (3dots) -> (q3n);
+		\draw (q41) -> (q42) -> (4dots) -> (q4n);
+	\end{tikzpicture}
+	\caption{Il DAG di esecuzione dell'algoritmo parallelo \`e come un albero che ha come figli della radice $p$ cammini lunghi ciascuno $\frac{\xi^{n}}{p}$.}
+	\label{fig:dag_par_p_proc}
+\end{figure*}
+
+Quindi il tempo di esecuzione con $p$ processori \`e $\bigo{\frac{\xi^n}{p}}$.
+Quindi lo speedup \`e lineare con $p$.
+
+Lo \emph{span}, ossia il tempo di esecuzione con un numero infinito di processori, \`e $\bigo{1}$: viene creato un numero infinito di thread, ciascuno su un processore, e ciascun thread controlla una sola parola.
+
+\subsection{Ottimizzazione dell'algoritmo ideale}
+
+La situazione illustrata \`e ideale e non prende in considerazione l'impossibilit\`a pratica di creare infiniti thread.
+L'implementazione che proponiamo dell'algoritmo cerca per\`o di avvicinarsi alla situazione ideale, in cui la sincronizzazione non ha costi:
+\begin{enumerate}
+	\item \label{itm:opt_word_set} Ciascun thread non lavora su una singola parola alla volta, ma su un insieme di parole di cardinalit\`a fissata, per ridurre il numero di thread totali.
+		\`E quindi necessario trovare una partizione di $\Sigma^{\star}$ le cui classi abbiano tutte la stessa cardinalit\`a, e che sia possibile ordinare linearmente in modo che la classe $A$  preceda la classe $B$  se e solo se tutte le parole di $A$ precedono in ordine quasi lessicografico tutte le parole di $B$.
+		Se le due propriet\`a sono verificate gli elementi dell'insieme quoziente saranno insiemi di parole verificabili nello stesso tempo e ordinabili ``rispettando'' l'ordine quasi lessicografico delle parole.
+
+		La partizione che proponiamo inserisce in una classe tutte le parole lunghe $k$ che hanno in comune i primi $j$ caratteri, dove $j < k$.
+		La differenza $k - j$ deve essere un'invariante per tutte le classi di questa partizione.
+	\item Non creiamo un numero infinito di thread, che \`e solo una utile astrazione mentale, ma ne creiamo un numero $m$ e cerchiamo per quali valori di $m$ si ottiene lo speedup maggiore.
+		In questa implementazione deve esistere un metodo che atomicamente ritorna una diversa stringa su $\Sigma$ in ordine quasi lessicografico, o meglio un insieme di stringhe come da punto \ref{itm:opt_word_set}.
+		Ciascun thread chiama questo metodo e controlla le stringhe che riceve.
+
+		L'ipotesi che facciamo \`e che questo avvenga per $m = p$.
+	\item Boh?
+\end{enumerate}
+
+\section{Implementazione}
+
+\subsection{Piattaforma dei test}
+
+Raspberry Pi 2, con un processore ``900 MHz quad-core ARM Cortex-A7'' secondo wikipedia.
+
+\subsection{Implementazione ingenua}
+
+\begin{figure*}[th]
+	\centering
+	\includegraphics[width=\textwidth]{homework1_classes.eps}
+	\caption{Struttura delle classi del progetto.}
+\end{figure*}
+
+% TODO descrivere le classi
+
+\subsubsection{Risultati attesi}
+
+\begin{itemize}
+	\item Speedup lineare.
+	\item Buon load balancing.
+	\item Speedup massimo quando il numero di thread \`e uguale al numero dei processori.
+\end{itemize}
+
+\subsubsection{Risultati ottenuti}
+
+% TODO illustrare i tempi di esecuzione
+
+%\begin{figure}
+%	\begin{tikzpicture}
+%		\begin{axis}
+%	\addplot table[x=x,y=y] {myfile.dat};
+%		\end{axis}
+%	\end{tikzpicture}
+%\end{figure}
+
+% TODO illustrare i bottleneck, principalmente il garbage collector e l'uso di troppi oggetti immutabili
+
+\subsection{Ottimizzazione del'implementazione}
+
+Ogni thread, invece di creare ogni volta stringhe (tipi immutabili) che il garbage collector deve poi raccogliere, pu\`o mantenere un array di byte in cui inserisce di volta in volta la nuova parola.
+MD5 prende in input un array di byte, e d\`a in output un array di byte, e guadagnamo non dovendo fare la conversione.
+Conviene rappresentare anche gli hash in input come array di byte, e usare il metodo \code{Arrays.equals(byte[], byte[])} per i confronti.
+
+% TODO illustrare i cambiamenti fatti
+
+\subsubsection{Risultati ottenuti}
+
+% TODO illustrare i tempi di esecuzione
+
+\section{Conclusioni}
+
+L'algoritmo non ha problemi di fiducia: nel momento in cui assegna un inseme di parole a un thread, assume che questo le controlli tutte.
+
+Se eseguito su pi\`u computer l'algoritmo deve tenere traccia degli insiemi di parole che ha distribuito per assegnare a un nuovo \emph{worker} insiemi che restano ``orfani'' in caso di fallimenti.
+
+\end{document}
+
