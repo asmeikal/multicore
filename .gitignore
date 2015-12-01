@@ -1,6 +1,7 @@
 bin
 *.*
 !*.tex
+!multicore.bib
 !*.txt
 !*.java
 output.txt

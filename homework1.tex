@@ -16,6 +16,9 @@
 \pgfplotsset{compat=1.5}
 \usetikzlibrary{shapes,arrows,positioning,automata}
 
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{multicore}
+
 \author{Gabriele Atria \and Michele Laurenti}
 
 \begin{document}
@@ -128,48 +131,97 @@ L'implementazione che proponiamo dell'algoritmo cerca per\`o di avvicinarsi alla
 		La partizione che proponiamo inserisce in una classe tutte le parole lunghe $k$ che hanno in comune i primi $j$ caratteri, dove $j < k$.
 		La differenza $k - j$ deve essere un'invariante per tutte le classi di questa partizione.
 	\item Non creiamo un numero infinito di thread, che \`e solo una utile astrazione mentale, ma ne creiamo un numero $m$ e cerchiamo per quali valori di $m$ si ottiene lo speedup maggiore.
-		In questa implementazione deve esistere un metodo che atomicamente ritorna una diversa stringa su $\Sigma$ in ordine quasi lessicografico, o meglio un insieme di stringhe come da punto \ref{itm:opt_word_set}.
+		In questa implementazione deve esistere un metodo che atomicamente ritorna una diversa stringa su $\Sigma$ in ordine quasi lessicografico, o meglio una classe di stringhe come da punto \ref{itm:opt_word_set}.
 		Ciascun thread chiama questo metodo e controlla le stringhe che riceve.
-
-		L'ipotesi che facciamo \`e che questo avvenga per $m = p$.
-	\item Boh?
 \end{enumerate}
 
 \section{Implementazione}
 
 \subsection{Piattaforma dei test}
 
-Raspberry Pi 2, con un processore ``900 MHz quad-core ARM Cortex-A7'' secondo wikipedia.
+I computer su cui abbiamo testato l'algoritmo sono:
+\begin{itemize}
+	\item Raspberry Pi 2 Model B, con CPU ``900 MHz quad-core ARM Cortex-A7'' secondo wikipedia \cite{wikipi}.
+	\item MacBook Air (Early 2014), con CPU ``1.4 GHz (i5-4260U) dual-core Intel Core i5'' secondo wikipedia \cite{wikiair}.
+\end{itemize}
+
+Nei test condotti abbiamo fissato la lunghezza della password e generato password casuali di questa lunghezza, assieme all'ultima password in ordine quasi lessicografico di quella lunghezza.
+Con lunghezza 4, il programma deve cercare $n$ password di lunghezza 4 e l'hash della password ``\code{9999}''.
+Evitiamo quindi casi limite in cui le $n$ password generate sono tutte ``vicine'' e con un basso indice quasi lessicografico, costringendo il programma a provare (almeno) tutte le parole da ``\code{a}'' a ``\code{9999}''.
+
+La lunghezza delle password \`e stata scelta da computer a computer, per arrivare a test della durata di qualche ora.
 
 \subsection{Implementazione ingenua}
+
+La prima implementazione che proponiamo ricalca grossomodo l'algoritmo ideale.
+Rappresentiamo ogni parola con una \code{String}, e attraverso due generatori di stringhe (\code{AllStringGenerator}, globale e sincronizzato, e \code{StringGenerator}, locale a ciascun thread) forniamo ai thread creati un ``inizio'' di parola e lasciamo loro il compito di concatenare questo inizio con tutte le possibili combinazioni di $n$ lettere.
+
+Le parole di lunghezza minore o uguale di $n$ (soglia che deve essere scelta opportunamente) vengono controllate in sequenziale all'inizio del programma.
+
+Ciascun thread lavora su un insieme di parole e si sincronizza all'inizio del lavoro con la classe \code{Master} per ottenere l'insieme di password non ancora trovate.
+Abbiamo scelto questa implementazione per evitare di dover mettere a disposizione dei thread un insieme di password sincronizzato (con lock di scrittura e di lettura), che avrebbe comportato l'acquisizione e il rilascio di un lock a ogni parola controllata.
+Il draw-back di questa scelta \`e che i thread non termineranno il lavoro nel momento in cui l'ultima password viene trovata, ma se l'insieme di password su cui i thread lavorano \`e di dimensione ridotta l'attesa diviene trascurabile.
+
+La struttura delle classi \`e rappresentata in figura \ref{fig:classi_progetto}.
 
 \begin{figure*}[th]
 	\centering
 	\includegraphics[width=\textwidth]{homework1_classes.eps}
 	\caption{Struttura delle classi del progetto.}
+	\label{fig:classi_progetto}
 \end{figure*}
-
-% TODO descrivere le classi
 
 \subsubsection{Risultati attesi}
 
 \begin{itemize}
 	\item Speedup lineare.
-	\item Buon load balancing.
 	\item Speedup massimo quando il numero di thread \`e uguale al numero dei processori.
+	\item Buon load balancing.
 \end{itemize}
+I primi due risultati sono facilmente visibili.
 
 \subsubsection{Risultati ottenuti}
 
+
 % TODO illustrare i tempi di esecuzione
 
-%\begin{figure}
-%	\begin{tikzpicture}
-%		\begin{axis}
-%	\addplot table[x=x,y=y] {myfile.dat};
-%		\end{axis}
-%	\end{tikzpicture}
-%\end{figure}
+
+\begin{figure}[h]
+	\begin{tikzpicture}
+		\begin{axis}[
+			xtick=data,
+			ymin=0,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)}
+		]
+			\pgfplotstableread{risultati_pi.dat}{\risultatipi}
+			\addplot[mark=*,red] table[x=thread,y=tempo] {\risultatipi};
+			\pgfplotstablegetelem{0}{tempo}\of{\risultatipi};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\node[] at (axis cs:2,200) {$\frac{1}{x}$};
+  		\end{axis}
+	\end{tikzpicture}
+	\caption{Tempo/thread su Raspberry Pi.}
+\end{figure}
+
+\begin{figure}[h]
+	\begin{tikzpicture}
+		\begin{axis}[
+			xtick=data,
+			domain=1:8,
+			xlabel={\# thread},
+			ylabel={speedup}
+		]
+			\pgfplotstableread{risultati_pi.dat}{\risultatipi}
+			\addplot[mark=*,red] table[x=thread,y=speedup] {\risultatipi};
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Speedup/thread su Raspberry Pi.}
+\end{figure}
 
 % TODO illustrare i bottleneck, principalmente il garbage collector e l'uso di troppi oggetti immutabili
 
@@ -190,6 +242,9 @@ Conviene rappresentare anche gli hash in input come array di byte, e usare il me
 L'algoritmo non ha problemi di fiducia: nel momento in cui assegna un inseme di parole a un thread, assume che questo le controlli tutte.
 
 Se eseguito su pi\`u computer l'algoritmo deve tenere traccia degli insiemi di parole che ha distribuito per assegnare a un nuovo \emph{worker} insiemi che restano ``orfani'' in caso di fallimenti.
+
+\renewcommand{\refname}{Riferimenti}
+\printbibliography
 
 \end{document}
 
