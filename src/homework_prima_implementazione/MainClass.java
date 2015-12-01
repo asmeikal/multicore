@@ -1,6 +1,7 @@
 package homework_prima_implementazione;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class MainClass
 {
@@ -10,14 +11,22 @@ public class MainClass
 		// prende in input numero processori e lunghezza parole
 		int n_threads = Integer.parseInt(args[0]);
 		int length = Integer.parseInt(args[1]);
-		// int n_threads = 4;
-		// int length = 3;
-
-
+		
+		MD5 md5 = new MD5();
+		Random r = new Random();
+		String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 		HashSet<String> passwords = new HashSet<String>();
-		passwords.add("6e6bc4e49dd477ebc98ef4046c067b5f");
-		passwords.add("cdd7a616f977556bf3bce39917a37a30");
-		passwords.add("e7e9ec3723447a642f762b2b6a15cfd7");
+
+		passwords.add(md5.hash("99999"));
+		
+		for (int i = 0; i < 5; ++i) {
+			StringBuilder s = new StringBuilder();
+			for (int j = 0; j < 5; ++j) {
+				s.append(alphabet.charAt(r.nextInt(alphabet.length() - 1)));
+			}
+			passwords.add(md5.hash(s.toString()));
+		}
+		
 		System.out.println(passwords);
 
 		Master m = new Master(passwords, n_threads, length);
