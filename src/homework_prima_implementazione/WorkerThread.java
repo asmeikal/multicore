@@ -14,15 +14,15 @@ public class WorkerThread extends Thread
 		this.master = m;
 		this.asg = asg;
 		this.sg = sg;
-		
+
 		// creare un MD5
 		this.hasher = new MD5();
 	}
 
 	public void run()
 	{
-        HashSet<String> s = this.master.getPasswords();
-		while ( !s.isEmpty()) {
+		HashSet<String> s = this.master.getPasswords();
+		while (!s.isEmpty()) {
 			String w1 = this.asg.getNextWord();
 			while (this.sg.hasWords()) {
 				String w2 = this.sg.getNextWord();
@@ -33,7 +33,7 @@ public class WorkerThread extends Thread
 				}
 			}
 			this.sg.reset();
-            s = this.master.getPasswords();
+			s = this.master.getPasswords();
 		}
 	}
 }
