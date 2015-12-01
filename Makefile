@@ -13,6 +13,7 @@ MAIN_FILES=$(SRC_DIR)/$(MAIN_PACKAGE)/*.java
 TARGETS=$(BIN_DIR)/$(MAIN_PACKAGE)/MainClass.class
 
 $(TARGETS): $(MAIN_FILES)
+	test -d $(BIN_DIR) || mkdir -p $(BIN_DIR)
 	$(JC) $(JFLAGS) -d $(BIN_DIR) -cp $(BIN_DIR) -sourcepath $(SRC_DIR) $(SRC_DIR)/$(MAIN_PACKAGE)/$(@F:.class=.java)
 
 clean:
