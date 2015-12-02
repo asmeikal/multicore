@@ -64,5 +64,17 @@ public class StringGeneratorTest
 		} catch (RuntimeException e) {
 			System.out.println(e);
 		}
+
+		AllStringGenerator asg = new AllStringGenerator(alphabet.getBytes());
+		System.out.println(new String(asg.getNextWord()));
+		for (int j = 0; j < alphabet.length() - 2; ++j) {
+			asg.getNextWord();
+		}
+		System.out.println(new String(asg.getNextWord()));
+		System.out.println(new String(asg.getNextWord()));
+		for (int j = 0; j < 5000; ++j) {
+			asg.getNextWord();
+		}
+		System.out.println(new String(asg.getNextWord()));
 	}
 }
