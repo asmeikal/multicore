@@ -6,7 +6,7 @@ class StringGenerator
 {
 	final private String alphabet;
 	final private int length;
-	
+
 	final private BigInteger alpha_len;
 	private BigInteger counter;
 	private String nextWord;
@@ -58,4 +58,3 @@ class StringGenerator
 	}
 
 }
-
