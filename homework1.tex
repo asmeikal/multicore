@@ -185,44 +185,105 @@ I primi due risultati sono facilmente visibili.
 
 % TODO illustrare i tempi di esecuzione
 
-
-\begin{figure}[h]
+\begin{figure}[hp]
+\resizebox{\columnwidth}{!}{
 	\begin{tikzpicture}
 		\begin{axis}[
 			xtick=data,
-			ymin=0,
+			ymajorgrids,
+			ymin=0.1,
 			xlabel={\# thread},
-			ylabel={tempo ($s$)}
+			ylabel={tempo ($s$)},
 		]
-			\pgfplotstableread{risultati_pi.dat}{\risultatipi}
-			\addplot[mark=*,red] table[x=thread,y=tempo] {\risultatipi};
-			\pgfplotstablegetelem{0}{tempo}\of{\risultatipi};
+			\pgfplotstableread{plot.dat}{\risultatipi}
+			\addplot[mark=o,red] table[x=threads,y=media] {\risultatipi};
+			\pgfplotstablegetelem{0}{media}\of{\risultatipi};
 			\pgfmathsetmacro{\yn}{\pgfplotsretval};
     		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
-			\node[] at (axis cs:2,200) {$\frac{1}{x}$};
+			\addplot[domain=1:8,dashed] {\yn/3};
+			\node[] at (axis cs:2,\yn/3) {$\frac{1}{x}$};
   		\end{axis}
 	\end{tikzpicture}
-	\caption{Tempo/thread su Raspberry Pi.}
+	}
+	\caption{Tempo/thread su Raspberry Pi contro un insieme di parole di 4 lettere, con Oracle JVM.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[hp]
+\resizebox{\columnwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{plot_openjdk.dat}{\risopenjdk}
+			\addplot[mark=o,green] table[x=threads,y=media] {\risopenjdk};
+			\pgfplotstablegetelem{0}{media}\of{\risopenjdk};
+			\pgfmathsetmacro{\rpoyn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\rpoyn/x});
+			\addplot[domain=1:8,dashed] {\rpoyn/4};
+			\node[] at (axis cs:2,\rpoyn/3) {$\frac{1}{x}$};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{Tempo/thread su Raspberry Pi contro un insieme di parole di 4 lettere, con OpenJDK.}
+\end{figure}
+
+\begin{figure}[hp]
+\resizebox{\columnwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{plot_2.dat}{\risultatipi}
+			\addplot[mark=o,blue] table[x=threads,y=media] {\risultatipi};
+			\pgfplotstablegetelem{0}{media}\of{\risultatipi};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/3};
+			\node[] at (axis cs:2,\yn/3) {$\frac{1}{x}$};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{Tempo/thread su Raspberry Pi contro un insieme di parole di 5 lettere, con Oracle JVM.}
+\end{figure}
+
+\begin{figure}[hp]
+\resizebox{\columnwidth}{!}{
 	\begin{tikzpicture}
 		\begin{axis}[
 			xtick=data,
 			domain=1:8,
+			ymajorgrids,
 			xlabel={\# thread},
-			ylabel={speedup}
-		]
-			\pgfplotstableread{risultati_pi.dat}{\risultatipi}
-			\addplot[mark=*,red] table[x=thread,y=speedup] {\risultatipi};
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{plot.dat}{\risultatipi}
+			\pgfplotstableread{plot_2.dat}{\risultatipibis}
+			\pgfplotstableread{plot_openjdk.dat}{\risopenjdk}
+			\addplot[mark=o,red] 
+			 table[x=threads,y=speedup]  {\risultatipi};
+			 \addlegendentry{Oracle JVM, 4 letters}
+			\addplot[mark=o,blue] 
+			 table[x=threads,y=speedup]  {\risultatipibis};
+			 \addlegendentry{Oracle JVM, 5 letters}
+			\addplot[mark=o,green]
+			 table[x=threads,y=speedup]  {\risopenjdk};
+			 \addlegendentry{Open JDK, 4 letters}
 			\addplot[dashed,blue] {x};
 			\addplot[dashed] {4};
 			\node[above] at (axis cs:2,4) {\# processori};
 		\end{axis}
 	\end{tikzpicture}
+	}
 	\caption{Speedup/thread su Raspberry Pi.}
 \end{figure}
-
 % TODO illustrare i bottleneck, principalmente il garbage collector e l'uso di troppi oggetti immutabili
 
 \subsection{Ottimizzazione del'implementazione}
@@ -244,6 +305,7 @@ L'algoritmo non ha problemi di fiducia: nel momento in cui assegna un inseme di 
 Se eseguito su pi\`u computer l'algoritmo deve tenere traccia degli insiemi di parole che ha distribuito per assegnare a un nuovo \emph{worker} insiemi che restano ``orfani'' in caso di fallimenti.
 
 \renewcommand{\refname}{Riferimenti}
+\nocite{*}
 \printbibliography
 
 \end{document}
