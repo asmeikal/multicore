@@ -50,10 +50,8 @@ public class MainClass
 		System.out.println("This is the set of hashes we're testing against:");
 		System.out.println(passwords);
 
-		return;
-		//
-		// Master m = new Master(passwords, n_threads, length);
-		// m.work();
+		Master m = new Master(passwords, n_threads, length);
+		m.work();
 
 	}
 }
