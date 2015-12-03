@@ -73,6 +73,6 @@ public class Master
 
 	synchronized public ArrayList<byte[]> getPasswords()
 	{
-		return copy;
+		return this.hashes;
 	}
 }
