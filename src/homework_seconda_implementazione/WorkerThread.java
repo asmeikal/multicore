@@ -1,7 +1,7 @@
 package homework_seconda_implementazione;
 
 
-public class WorkerThread
+public class WorkerThread extends Thread
 {
     // stessi metodi, reimplementare allocando meno oggetti possibili
     
@@ -16,8 +16,9 @@ public class WorkerThread
         this.sg = sg;
         this.hasher = new MD5();
     }
-
-        public void run()
+    
+    @Override
+    public void run()
     {
         HashSet<byte[]> passwords = this.master.getPasswords();
         byte[] root;
