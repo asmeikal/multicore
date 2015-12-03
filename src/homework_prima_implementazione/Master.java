@@ -1,5 +1,6 @@
 package homework_prima_implementazione;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,9 +25,9 @@ public class Master
 	 * Parametrizzare: numero di thread; lunghezza password da dare ai
 	 * thread.
 	 */
-	public Master(HashSet<String> hashes, int n_thread, int length)
+	public Master(ArrayList<String> hashes, int n_thread, int length)
 	{
-		this.hashes = hashes;
+		this.hashes = new HashSet<String>(hashes);
 		this.workerThreads = new WorkerThread[n_thread];
 		this.length = length;
 
