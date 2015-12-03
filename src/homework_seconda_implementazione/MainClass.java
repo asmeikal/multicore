@@ -1,6 +1,9 @@
 package homework_seconda_implementazione;
 
-import java.util.HashSet;
+import homework_prima_implementazione.MD5;
+import homework_prima_implementazione.Master;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainClass
@@ -17,8 +20,8 @@ public class MainClass
 		assert p_length > 0;
 		assert n_pass > 0;
 
-		final byte[] alphabet = "abcdefghijklmnopqrstuvwxyz0123456789".getBytes();
-		HashSet<byte[]> passwords = new HashSet<byte[]>();
+		final String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+		ArrayList<String> passwords = new ArrayList<String>();
 		Random r = new Random();
 		MD5 md5 = new MD5();
 
@@ -28,23 +31,23 @@ public class MainClass
 			 * p_length
 			 */
 			for (int j = 0; j < n_pass * i; ++j) {
-				byte[] s = new byte[i];
+				StringBuilder s = new StringBuilder();
 				for (int k = 0; k < i; ++k) {
-					s[k] = alphabet[r.nextInt(alphabet.length - 1)];
+					s.append(alphabet.charAt(r.nextInt(alphabet.length() - 1)));
 				}
-				System.out.println("Adding password " + new String(s));
-				passwords.add(md5.hash(s));
+				System.out.println("Adding password " + s.toString());
+				passwords.add(md5.hash(s.toString()));
 			}
 			/*
 			 * Generate the last password in lexicographic order
 			 * with length p_length
 			 */
-			byte[] s = new byte[i];
+			StringBuilder s = new StringBuilder();
 			for (int k = 0; k < i; ++k) {
-				s[k] = alphabet[alphabet.length - 1];
+				s.append(alphabet.charAt(alphabet.length() - 1));
 			}
-			System.out.println("Adding password " + new String(s));
-			passwords.add(md5.hash(s));
+			System.out.println("Adding password " + s.toString());
+			passwords.add(md5.hash(s.toString()));
 		}
 
 		System.out.println("This is the set of hashes we're testing against:");
