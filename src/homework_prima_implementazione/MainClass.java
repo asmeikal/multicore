@@ -1,6 +1,6 @@
 package homework_prima_implementazione;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainClass
@@ -18,7 +18,7 @@ public class MainClass
 		assert n_pass > 0;
 
 		final String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
-		HashSet<String> passwords = new HashSet<String>();
+		ArrayList<String> passwords = new ArrayList<String>();
 		Random r = new Random();
 		MD5 md5 = new MD5();
 
