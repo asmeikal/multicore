@@ -1,7 +1,10 @@
 package homework_seconda_implementazione;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class MainClass
 {
@@ -19,6 +22,7 @@ public class MainClass
 
 		final String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 		ArrayList<String> passwords = new ArrayList<String>();
+		Set<String> randompass = new TreeSet<String>();
 		Random r = new Random();
 		MD5 md5 = new MD5();
 
@@ -32,7 +36,7 @@ public class MainClass
 				for (int k = 0; k < i; ++k) {
 					s.append(alphabet.charAt(r.nextInt(alphabet.length() - 1)));
 				}
-				System.out.println("Adding password " + s.toString());
+				randompass.add(s.toString());
 				passwords.add(md5.hash(s.toString()));
 			}
 			/*
@@ -43,15 +47,18 @@ public class MainClass
 			for (int k = 0; k < i; ++k) {
 				s.append(alphabet.charAt(alphabet.length() - 1));
 			}
-			System.out.println("Adding password " + s.toString());
+			randompass.add(s.toString());
 			passwords.add(md5.hash(s.toString()));
 		}
 
+		System.out.println("This are the passwords we are looking for:");
+		System.out.println(randompass);
 		System.out.println("This is the set of hashes we're testing against:");
 		System.out.println(passwords);
 
 		Master m = new Master(passwords, alphabet, n_threads, length);
-		m.work();
+		Map<String, String> result = m.work();
 
+		System.out.println(result);
 	}
 }
