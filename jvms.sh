@@ -1,5 +1,7 @@
 #!/bin/bash
 
+declare -a l=("oracle7" "oracle8" "openjdk7")
+
 openjdk7="/usr/lib/jvm/java-7-openjdk-armhf/jre/bin/java"
 openjdk8="/usr/lib/jvm/java-8-openjdk-armhf/jre/bin/java"
 oracle7="/usr/lib/jvm/jdk-7-oracle-armhf/jre/bin/java"

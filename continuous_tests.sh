@@ -18,26 +18,28 @@ wait_min() {
 	echo "done"
 }
 
-while read impl jvm args; do
+while read impl args; do
 	if [[ ! $impl ]] ; then continue ; fi
 	echo ""
-	time=`date +"%F-%H-%M"`
-	fname="${impl}_${jvm}_${time}.log"
-	if [ -e "./$fname" ] ; then
-		wait_min 1
+	for jvm in "${l[@]}" ; do
 		time=`date +"%F-%H-%M"`
 		fname="${impl}_${jvm}_${time}.log"
-	fi
-	echo "$impl $jvm $args"
-	echo "$impl $jvm $args" > $fname
-	echo "make clean-java" >> $fname
-	make clean-java >> $fname 2>&1
-	if [ $? -ne 0 ] ; then continue ; fi
-	echo "make $jvm" >> $fname
-	make $jvm >> $fname 2>&1
-	if [ $? -ne 0 ] ; then continue ; fi
-	echo "${!jvm} -cp $BIN ${!impl} $args" >> $fname
-	{ /usr/bin/time -v ${!jvm} -showversion -cp $BIN ${!impl} $args ; } >> $fname 2>&1
+		if [ -e "./$fname" ] ; then
+			wait_min 1
+			time=`date +"%F-%H-%M"`
+			fname="${impl}_${jvm}_${time}.log"
+		fi
+		echo "$impl $jvm $args"
+		echo "$impl $jvm $args" > $fname
+		echo "make clean-java" >> $fname
+		make clean-java >> $fname 2>&1
+		if [ $? -ne 0 ] ; then continue ; fi
+		echo "make $jvm" >> $fname
+		make $jvm >> $fname 2>&1
+		if [ $? -ne 0 ] ; then continue ; fi
+		echo "${!jvm} -cp $BIN ${!impl} $args" >> $fname
+		{ /usr/bin/time -v ${!jvm} -showversion -cp $BIN ${!impl} $args ; } >> $fname 2>&1
+	done
 done <$1
 
 echo -e "\nAll work is done\n"
