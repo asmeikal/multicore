@@ -18,6 +18,20 @@ SECOND_TARGET=$(BIN_DIR)/$(SECOND_PACKAGE)/MainClass.class
 
 LATEX=$(CURR_DIR)/homework1.pdf
 
+# Different JVMs
+
+openjdk7: JC = /usr/lib/jvm/java-7-openjdk-armhf/bin/javac
+openjdk8: JC = /usr/lib/jvm/java-8-openjdk-armhf/bin/javac
+oracle7: JC = /usr/lib/jvm/jdk-7-oracle-armhf/bin/javac
+oracle8: JC = /usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/bin/javac
+
+openjdk7: java-targets
+openjdk8: java-targets
+oracle7: java-targets
+oracle8: java-targets
+
+# These work on my RPi
+
 all: java-targets latex-targets
 
 clean: clean-java clean-latex
