@@ -4,5 +4,7 @@ bin
 !multicore.bib
 !*.txt
 !*.java
+!*.awk
+!*.sh
 output.txt
 
