@@ -12,10 +12,39 @@ public class Master
 	private AllStringGenerator asg;
 	private WorkerThread[] workerThreads;
 	private HashMap<byte[], byte[]> passwordMap;
+	
+	/*private Comparator<byte[]> comp = new Comparator<byte[]>() {
+        @Override
+        public int compare(byte[] x, byte[] y) {
+
+            if (x.length < y.length) {return -1;}
+            if (x.length > x.length) {return 1;}
+
+            for (int i=0; i < x.length; i++) {
+                if (x[i] != y[i]) {
+                    return -1;
+                }
+            }
+            return 0;
+        }
+        };*/
+
+    	private Comparator<byte[]> comp = (x,y) -> {
+    		if (x.length < y.length) {return -1;}
+        	if (x.length > y.length) {return 1;}
+
+                for (int i=0; i < x.length; i++) {
+            	    if (x[i] != y[i]) {
+                    return -1;
+                }
+        }
+        return 0;
+    };
 
 	public Master(ArrayList<String> hashes, int n_thread, int length)
-	{
-		this.hashes = new ArrayList<byte[]>(MD5.StringToByteArray(hashes));
+	{	
+		this.hashes = new TreeSet<byte[]>(comp);
+        	this.hashes.addAll(MD5.StringToByteArray(hashes));
 		this.workerThreads = new WorkerThread[n_thread];
 		this.length = length;
 		this.gf = new GeneratorFactory("abcdefghijklmnopqrstuvwxyz0123456789".getBytes(), this.length);
@@ -35,10 +64,8 @@ public class Master
 			while (sg.hasWords()) {
 				sg.getNextWord(word, 0);
 				byte[] hash = md5.hash(word);
-				for (byte[] h : hashes) {
-					if (Arrays.equals(h, hash)) {
-						this.foundPassword(hash, word);
-					}
+				if (this.hashes.contains(hash)) {
+                    		    foundPassword(hash,word);
 				}
 			}
 		}
@@ -59,15 +86,9 @@ public class Master
 
 	synchronized public void foundPassword(byte[] hash, byte[] pass)
 	{
-		ArrayList<byte[]> arr = new ArrayList<byte[]>();
-
-		for (byte[] el : this.hashes) {
-			if (!Arrays.equals(hash, el)) {
-				arr.add(el);
-			}
-		}
-		this.hashes = arr;
-		this.passwordMap.put(hash, pass);
+	
+	this.hashes.remove(hash);
+        this.passwordMap.put(hash, pass);
 
 	}
 
