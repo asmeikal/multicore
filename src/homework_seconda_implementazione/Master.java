@@ -29,17 +29,17 @@ public class Master
         }
         };*/
 
-    	private Comparator<byte[]> comp = (x,y) -> {
-    		if (x.length < y.length) {return -1;}
+	private Comparator<byte[]> comp = (x,y) -> {
+                if (x.length < y.length) {return -1;}
         	if (x.length > y.length) {return 1;}
 
-                for (int i=0; i < x.length; i++) {
-            	    if (x[i] != y[i]) {
-                    return -1;
+        	for (int i=0; i < x.length; i++) {
+            	   if      (x[i] < y[i]) { return -1; }
+                   else if (x[i] > y[i])  {return 1;}
                 }
-        }
-        return 0;
-    };
+                return 0;
+        };
+
 
 	public Master(ArrayList<String> hashes, int n_thread, int length)
 	{	
@@ -86,10 +86,10 @@ public class Master
 
 	synchronized public void foundPassword(byte[] hash, byte[] pass)
 	{
-	
-	this.hashes.remove(hash);
-        this.passwordMap.put(hash, pass);
-
+	    TreeSet<byte[]> t = new TreeSet<>(comp);
+            t.addAll(this.hashes);
+            t.remove(hash);
+            this.hashes = t;
 	}
 
 	synchronized public ArrayList<byte[]> getPasswords()
