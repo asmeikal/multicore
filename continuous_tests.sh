@@ -37,7 +37,7 @@ while read impl jvm args; do
 	make $jvm >> $fname 2>&1
 	if [ $? -ne 0 ] ; then continue ; fi
 	echo "${!jvm} -cp $BIN ${!impl} $args" >> $fname
-	{ /usr/bin/time -v ${!jvm} -cp $BIN ${!impl} $args ; } >> $fname 2>&1
+	{ /usr/bin/time -v ${!jvm} -showversion -cp $BIN ${!impl} $args ; } >> $fname 2>&1
 done <$1
 
 echo -e "\nAll work is done\n"
