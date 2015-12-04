@@ -21,10 +21,10 @@ public class Master
             if (x.length > x.length) {return 1;}
 
             for (int i=0; i < x.length; i++) {
-                if (x[i] != y[i]) {
-                    return -1;
+                if (x[i] < y[i]) { return -1; }
+                else if (x[i] > y[i]) {  return 1; }
                 }
-            }
+            
             return 0;
         }
         };*/
