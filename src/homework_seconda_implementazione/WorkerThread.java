@@ -1,5 +1,7 @@
 package homework_seconda_implementazione;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class WorkerThread extends Thread
 {
@@ -20,7 +22,7 @@ public class WorkerThread extends Thread
     @Override
     public void run()
     {
-        HashSet<byte[]> passwords = this.master.getPasswords();
+        ArrayList<byte[]> passwords = this.master.getPasswords();
         byte[] root;
         byte[] word;
         while (!passwords.isEmpty()) {
