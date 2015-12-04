@@ -18,7 +18,7 @@ public class Master
         public int compare(byte[] x, byte[] y) {
 
             if (x.length < y.length) {return -1;}
-            if (y.length > x.length) {return 1;}
+            if (x.length > x.length) {return 1;}
 
             for (int i=0; i < x.length; i++) {
                 if (x[i] != y[i]) {
