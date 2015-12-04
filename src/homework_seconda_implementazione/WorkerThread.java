@@ -22,7 +22,7 @@ public class WorkerThread extends Thread
     @Override
     public void run()
     {
-        ArrayList<byte[]> passwords = this.master.getPasswords();
+        TreeSet<byte[]> passwords = this.master.getPasswords();
         byte[] root;
         byte[] word;
         while (!passwords.isEmpty()) {
@@ -31,12 +31,11 @@ public class WorkerThread extends Thread
             while (this.sg.hasWords()) {
                 sg.getNextWord(word,root.length);
                 byte[] hash = this.hasher.hash(word);
-                for (byte[] password : passwords) {
-                    if (Arrays.equals(password,hash)) {
-                        this.master.foundPassword(hash, word);
-                    }
+                if (passwords.contains(hash)) {
+                    this.master.foundPassword(hash,word);
                 }
             }
+        }
             this.sg.reset();
             passwords = this.master.getPasswords();
         }
