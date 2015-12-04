@@ -1,7 +1,7 @@
 package homework_seconda_implementazione;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeSet;
 
 public class WorkerThread extends Thread
 {
