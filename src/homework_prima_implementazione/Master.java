@@ -25,13 +25,13 @@ public class Master
 	 * Parametrizzare: numero di thread; lunghezza password da dare ai
 	 * thread.
 	 */
-	public Master(ArrayList<String> hashes, int n_thread, int length)
+	public Master(ArrayList<String> hashes, String alphabet, int n_thread, int length)
 	{
 		this.hashes = new HashSet<String>(hashes);
 		this.workerThreads = new WorkerThread[n_thread];
 		this.length = length;
 
-		this.gf = new GeneratorFactory("abcdefghijklmnopqrstuvwxyz0123456789", this.length);
+		this.gf = new GeneratorFactory(alphabet, this.length);
 
 		this.asg = this.gf.getASG();
 		this.length = length;
@@ -39,7 +39,7 @@ public class Master
 
 	}
 
-	public void work() throws InterruptedException
+	public Map<String, String> work() throws InterruptedException
 	{
 		MD5 md5 = new MD5();
 
@@ -62,7 +62,7 @@ public class Master
 			workerThreads[i].join();
 		}
 
-		System.out.println(this.passwordMap);
+		return this.passwordMap;
 	}
 
 	synchronized public void foundPassword(String hash, String pass)

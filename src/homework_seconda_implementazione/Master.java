@@ -3,61 +3,74 @@ package homework_seconda_implementazione;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 public class Master
 {
-	private ArrayList<byte[]> hashes;
+	private TreeSet<byte[]> hashes;
 	private int length;
 	private GeneratorFactory gf;
 	private AllStringGenerator asg;
 	private WorkerThread[] workerThreads;
-	private HashMap<byte[], byte[]> passwordMap;
-	
-	/*private Comparator<byte[]> comp = new Comparator<byte[]>() {
-        @Override
-        public int compare(byte[] x, byte[] y) {
+	private Map<String, String> passwordMap;
 
-            if (x.length < y.length) {return -1;}
-            if (x.length > x.length) {return 1;}
+	private Comparator<byte[]> comp = new Comparator<byte[]>()
+	{
+		@Override
+		public int compare(byte[] x, byte[] y)
+		{
 
-            for (int i=0; i < x.length; i++) {
-                if (x[i] < y[i]) { return -1; }
-                else if (x[i] > y[i]) {  return 1; }
-                }
-            
-            return 0;
-        }
-        };*/
+			if (x.length < y.length) {
+				return -1;
+			} else if (x.length > x.length) {
+				return 1;
+			}
 
-	private Comparator<byte[]> comp = (x,y) -> {
-                if (x.length < y.length) {return -1;}
-        	if (x.length > y.length) {return 1;}
+			for (int i = 0; i < x.length; i++) {
+				if (x[i] < y[i]) {
+					return -1;
+				} else if (x[i] > y[i]) {
+					return 1;
+				}
+			}
 
-        	for (int i=0; i < x.length; i++) {
-            	   if      (x[i] < y[i]) { return -1; }
-                   else if (x[i] > y[i])  {return 1;}
-                }
-                return 0;
-        };
+			return 0;
+		}
+	};
 
+	// private Comparator<byte[]> comp8 = (x, y) -> {
+	// if (x.length < y.length) {
+	// return -1;
+	// } else if (x.length > y.length) {
+	// return 1;
+	// }
+	//
+	// for (int i = 0; i < x.length; i++) {
+	// if (x[i] < y[i]) {
+	// return -1;
+	// } else if (x[i] > y[i]) {
+	// return 1;
+	// }
+	// }
+	// return 0;
+	// };
 
-	public Master(ArrayList<String> hashes, int n_thread, int length)
-	{	
+	public Master(ArrayList<String> hashes, String alphabet, int n_thread, int length)
+	{
 		this.hashes = new TreeSet<byte[]>(comp);
-        	this.hashes.addAll(MD5.StringToByteArray(hashes));
+		this.hashes.addAll(MD5.StringToByteArray(hashes));
 		this.workerThreads = new WorkerThread[n_thread];
 		this.length = length;
-		this.gf = new GeneratorFactory("abcdefghijklmnopqrstuvwxyz0123456789".getBytes(), this.length);
+		this.gf = new GeneratorFactory(alphabet.getBytes(), this.length);
 		this.asg = gf.getASG();
-		this.passwordMap = new HashMap<byte[], byte[]>();
+		this.passwordMap = new HashMap<String, String>();
 	}
 
-	public void work() throws InterruptedException
+	public Map<String, String> work() throws InterruptedException
 	{
 		MD5 md5 = new MD5();
 
-		// controllare le prime parole in sequenziale
 		byte[] word;
 		for (int i = 1; i <= this.length; ++i) {
 			word = new byte[i];
@@ -66,34 +79,34 @@ public class Master
 				sg.getNextWord(word, 0);
 				byte[] hash = md5.hash(word);
 				if (this.hashes.contains(hash)) {
-                    		    foundPassword(hash,word);
+					foundPassword(hash, word);
 				}
 			}
 		}
-
-		// il master fa lavorare i thread
 
 		for (int i = 0; i < this.workerThreads.length; i++) {
 			workerThreads[i] = new WorkerThread(this, this.asg, gf.getSG());
 			workerThreads[i].start();
 		}
+
 		for (int i = 0; i < workerThreads.length; i++) {
 			workerThreads[i].join();
 		}
 
-		System.out.println(this.passwordMap);
+		return this.passwordMap;
 
 	}
 
 	synchronized public void foundPassword(byte[] hash, byte[] pass)
 	{
-	    TreeSet<byte[]> t = new TreeSet<>(comp);
-            t.addAll(this.hashes);
-            t.remove(hash);
-            this.hashes = t;
+		TreeSet<byte[]> t = new TreeSet<>(comp);
+		t.addAll(this.hashes);
+		t.remove(hash);
+		this.hashes = t;
+		this.passwordMap.put(MD5.ByteArrayToString(hash), new String(pass));
 	}
 
-	synchronized public ArrayList<byte[]> getPasswords()
+	synchronized public TreeSet<byte[]> getPasswords()
 	{
 		return this.hashes;
 	}
