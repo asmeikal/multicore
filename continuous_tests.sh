@@ -1,13 +1,8 @@
 #!/bin/bash
 
-ljvm=["oracle7","oracle8","openjdk7","openjdk8"]
-limp=["prima","seconda"]
 BIN="./bin"
 
-oracle7="a"
-oracle8="b"
-openjdk7="c"
-openjdk8="d"
+source jvms.sh
 
 prima="homework_prima_implementazione/MainClass.class"
 seconda="homework_seconda_implementazione/MainClass.class"
