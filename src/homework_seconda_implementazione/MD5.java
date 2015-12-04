@@ -36,9 +36,24 @@ public class MD5
 		return result;
 	}
 
+	static String ByteArrayToString(byte[] b)
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < b.length; ++i) {
+			sb.append(Integer.toString((b[i] & 0xFF) + 0x100, 16).substring(1));
+		}
+
+		return sb.toString();
+	}
+
 	public byte[] hash(byte[] pass)
 	{
 		hasher.update(pass);
 		return this.hasher.digest();
+	}
+
+	public String hash(String pass)
+	{
+		return MD5.ByteArrayToString(this.hash(pass.getBytes()));
 	}
 }

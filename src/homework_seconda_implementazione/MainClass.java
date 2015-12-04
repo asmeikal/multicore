@@ -1,8 +1,5 @@
 package homework_seconda_implementazione;
 
-import homework_prima_implementazione.MD5;
-import homework_prima_implementazione.Master;
-
 import java.util.ArrayList;
 import java.util.Random;
 
