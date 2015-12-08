@@ -23,7 +23,7 @@ public class Master
 
 			if (x.length < y.length) {
 				return -1;
-			} else if (x.length > x.length) {
+			} else if (x.length > y.length) {
 				return 1;
 			}
 
