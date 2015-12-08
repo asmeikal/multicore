@@ -15,6 +15,7 @@ FIRST_TARGET=$(BIN_DIR)/$(FIRST_PACKAGE)/MainClass.class
 SECOND_PACKAGE=homework_seconda_implementazione
 SECOND_FILES=$(SRC_DIR)/$(SECOND_PACKAGE)/*.java
 SECOND_TARGET=$(BIN_DIR)/$(SECOND_PACKAGE)/MainClass.class
+MAIN_TARGET=$(BIN_DIR)/$(SECOND_PACKAGE)/Main.class
 
 LATEX=$(CURR_DIR)/homework1.pdf
 
@@ -38,13 +39,17 @@ clean: clean-java clean-latex
 
 # Java
 
-java-targets: $(FIRST_TARGET) $(SECOND_TARGET)
+java-targets: $(FIRST_TARGET) $(SECOND_TARGET) $(MAIN_TARGET)
 
 $(FIRST_TARGET): $(FIRST_FILES)
 	test -d $(BIN_DIR) || mkdir -p $(BIN_DIR)
 	$(JC) $(JFLAGS) -d $(BIN_DIR) -cp $(BIN_DIR) -sourcepath $(SRC_DIR) $(SRC_DIR)/$(FIRST_PACKAGE)/$(@F:.class=.java)
 
 $(SECOND_TARGET): $(SECOND_FILES)
+	test -d $(BIN_DIR) || mkdir -p $(BIN_DIR)
+	$(JC) $(JFLAGS) -d $(BIN_DIR) -cp $(BIN_DIR) -sourcepath $(SRC_DIR) $(SRC_DIR)/$(SECOND_PACKAGE)/$(@F:.class=.java)
+
+$(MAIN_TARGET): $(SECOND_FILES)
 	test -d $(BIN_DIR) || mkdir -p $(BIN_DIR)
 	$(JC) $(JFLAGS) -d $(BIN_DIR) -cp $(BIN_DIR) -sourcepath $(SRC_DIR) $(SRC_DIR)/$(SECOND_PACKAGE)/$(@F:.class=.java)
 
