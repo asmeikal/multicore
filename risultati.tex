@@ -1,0 +1,25 @@
+\documentclass[landscape, a4paper, draft]{article}
+
+\usepackage[italian]{babel}
+\usepackage{fullpage}
+\usepackage{parskip}
+\usepackage{subcaption} 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
+\usetikzlibrary{shapes,arrows,positioning,automata}
+
+\begin{document}
+
+Nei grafici del tempo di esecuzione abbiamo inserito una iperbole a indicare l'andamento ideale del tempo di esecuzione all'aumentare del numero di thread.
+La linea orizzontale rappresenta il ``limite'' teorico di $\frac{T_1}{p}$, con $T_1$ a indicare il tempo sequenziale e $p$ il numero di processori fisici.
+Con hyperthreading attivo, questo limite viene superato.
+
+Nei grafici dello speedup abbiamo disegnato la bisettrice del quadrante, a indicare lo speedup perfettamente lineare.
+Il limite \`e rappresentato anche qui dalla linea orizzontale $y = p$, il massimo speedup che si pu\`o sperare di ottenere con $p$ processori fisici.
+Anche questo limite viene superato dall'hyperthreading.
+
+\listoffigures
+
+\input{grafici.tex}
+
+\end{document}

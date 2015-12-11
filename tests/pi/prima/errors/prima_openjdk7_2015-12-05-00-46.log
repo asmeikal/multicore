@@ -1,0 +1,99 @@
+prima openjdk7 8 1 4 2
+make clean-java
+rm -f ./bin/homework_prima_implementazione/*.class
+rm -f ./bin/homework_seconda_implementazione/*.class
+make openjdk7
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/java-7-openjdk-armhf/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_prima_implementazione/MainClass.java
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/java-7-openjdk-armhf/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_seconda_implementazione/MainClass.java
+/usr/lib/jvm/java-7-openjdk-armhf/jre/bin/java -cp ./bin homework_prima_implementazione/MainClass 8 1 4 2
+java version "1.7.0_85"
+OpenJDK Runtime Environment (IcedTea 2.6.1) (7u85-2.6.1-6+deb8u1+rpi1)
+OpenJDK Zero VM (build 24.85-b03, mixed mode)
+
+Adding password 6
+Adding password w
+Adding password 9
+Adding password 61
+Adding password m7
+Adding password pn
+Adding password gn
+Adding password 99
+Adding password uh3
+Adding password e2c
+Adding password hhx
+Adding password xv0
+Adding password g2r
+Adding password dzw
+Adding password 999
+Adding password wzfp
+Adding password ysza
+Adding password sqr0
+Adding password sdi3
+Adding password l4f4
+Adding password ndqa
+Adding password cru6
+Adding password 21kn
+Adding password 9999
+This is the set of hashes we're testing against:
+[1679091c5a880faf6fb5e6087eb1b2dc, f1290186a5d0b1ceab27f4e77c0c5d68, 45c48cce2e2d7fbdea1afc51c7c6ad26, 7f39f8317fbdb1988ef4c628eba02591, 0449904fbf32607bf8ce5c26823dbc29, ded0804cf804b6d26e37953dc2dbc505, 5123dd8b087b644fdb8f8603acd1bad4, ac627ab1ccbdb62ec96e702f07f6425b, 97ff626297db1473bf94e3cc96fbb3a9, 283d4cf32fc0de7eb96464a45c65d249, 594bdedec6e3de7a8831aa27d9e5e250, a45d238fa7b8d103caf60eef63d7cfae, 47f1b59aa0691160c0b1aa874f679dee, 0134ad6b9a4726a6aeef0870f11c81b0, b706835de79a2b4e80506f582af3676a, 5687f85a16ca33b46f0ae8a7293abc7d, d337d24bfa8b10dbd248c74a1e694ac5, 21ae31e7eab4fe53c0688347acddc952, 41c566efeddde31e72304bdd330aa39f, 8524a09fdf78be6268ec3411b6c7af4b, 031ac3052bc4cacf58800faa26d2d8ae, c8423d0abec9c1905afcca9e2e4bfca5, 63978d46bab397d4afb01161e95b591c, fa246d0262c3925617b0c72bb20eeb1d]
+Found password: w
+Found password: 6
+Found password: 9
+Found password: gn
+Found password: pn
+Found password: m7
+Found password: 61
+Found password: 99
+Found password: dzw
+Found password: e2c
+Found password: g2r
+Found password: hhx
+Found password: uh3
+Found password: xv0
+Found password: 999
+Found password: cru6
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (os_linux_zero.cpp:285), pid=6332, tid=1382544480
+#  fatal error: caught unhandled signal 11
+#
+# JRE version: OpenJDK Runtime Environment (7.0_85-b01) (build 1.7.0_85-b01)
+# Java VM: OpenJDK Zero VM (24.85-b03 mixed mode linux-arm )
+# Derivative: IcedTea 2.6.1
+# Distribution: Raspbian GNU/Linux 8.0 (jessie), package 7u85-2.6.1-6+deb8u1+rpi1
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# An error report file with more information is saved as:
+# /home/pi/Developer/Java/multicore/hs_err_pid6332.log
+#
+# If you would like to submit a bug report, please include
+# instructions on how to reproduce the bug and visit:
+#   http://icedtea.classpath.org/bugzilla
+#
+Command terminated by signal 6
+	Command being timed: "/usr/lib/jvm/java-7-openjdk-armhf/jre/bin/java -showversion -cp ./bin homework_prima_implementazione/MainClass 8 1 4 2"
+	User time (seconds): 105.48
+	System time (seconds): 0.44
+	Percent of CPU this job got: 383%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:27.62
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 18444
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 5075
+	Voluntary context switches: 5674
+	Involuntary context switches: 9341
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 136
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

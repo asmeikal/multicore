@@ -1,0 +1,844 @@
+
+\begin{figure}
+\centering
+\caption{Speedup/thread e tempo/thread della prima implementazione, contro password di lunghezza 4, sul Raspberry Pi.}
+\begin{subfigure}[t]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_prima_2_41.dat}{\pimone}
+			\pgfplotstableread{tests/pi_prima_2_42.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_prima_2_43.dat}{\pimthree}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 7)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_prima_4_41.dat}{\pimone}
+			\pgfplotstableread{tests/pi_prima_4_42.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_prima_4_43.dat}{\pimthree}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 8)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_prima_3_41.dat}{\pimone}
+			\pgfplotstableread{tests/pi_prima_3_42.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_prima_3_43.dat}{\pimthree}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM OpenJDK (Java 7)}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_prima_2_41.dat}{\pimone}
+			\pgfplotstableread{tests/pi_prima_2_42.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_prima_2_43.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 7)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[b]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_prima_4_41.dat}{\pimone}
+			\pgfplotstableread{tests/pi_prima_4_42.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_prima_4_43.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 8)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[b]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_prima_3_41.dat}{\pimone}
+			\pgfplotstableread{tests/pi_prima_3_42.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_prima_3_43.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM OpenJDK (Java 7)}
+\end{subfigure}
+\end{figure}
+
+\clearpage
+
+\begin{figure}
+\centering
+\caption{Speedup/thread e tempo/thread con l'i5, prima e seconda implementazione, contro password di lunghezza 6.}
+\begin{subfigure}[t]{0.48\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/2,
+			xtick=data,
+			domain=1:4,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/i5_prima_6.dat}{\noh}
+			\pgfplotstableread{tests/i5_prima_6h.dat}{\sih}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\noh};
+			 \addlegendentry{No hyperthreading}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\sih};
+			 \addlegendentry{Hyperthreading}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {2};
+			\node[above] at (axis cs:1.5,2) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{I implementazione}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.48\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/2,
+			xtick=data,
+			domain=1:4,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/i5_seconda_6.dat}{\noh}
+			\pgfplotstableread{tests/i5_seconda_6h.dat}{\sih}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\noh};
+			 \addlegendentry{No hyperthreading}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\sih};
+			 \addlegendentry{Hyperthreading}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {2};
+			\node[above] at (axis cs:1.5,2) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{II implementazione}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{0.48\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/2,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/i5_prima_6.dat}{\pimone}
+			\pgfplotstableread{tests/i5_prima_6h.dat}{\pimtwo}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{No hyperthreading}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Hyperthreading}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:4,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:4,dashed] {\yn/2};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{I implementazione}
+\end{subfigure}
+\qquad
+\begin{subfigure}[b]{0.48\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/2,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/i5_seconda_6.dat}{\pimone}
+			\pgfplotstableread{tests/i5_seconda_6h.dat}{\pimtwo}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{No hyperthreading}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Hyperthreading}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:4,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:4,dashed] {\yn/2};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{II implementazione}
+\end{subfigure}
+\end{figure}
+
+\clearpage
+
+\begin{figure*}[h]
+	\caption{Speedup/thread su iMac, prima implementazione, contro password di lunghezza 5.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			domain=1:16,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+			ymax=8
+        ]
+			\pgfplotstableread{tests/imac_prima_51.dat}{\imacone}
+			\pgfplotstableread{tests/imac_prima_52.dat}{\imactwo}
+			\pgfplotstableread{tests/imac_prima_53.dat}{\imacthree}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\imacone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\imactwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\imacthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}[h]
+	\caption{Tempo/thread su iMac, prima implementazone, contro password di lunghezza 5.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/imac_prima_51.dat}{\pimone}
+			\pgfplotstableread{tests/imac_prima_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/imac_prima_53.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:16,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:16,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}
+
+\clearpage
+
+\begin{figure}
+\centering
+\caption{Speedup/thread e tempo/thread della seconda implementazione, contro password di lunghezza 5, sul Raspberry Pi.}
+\begin{subfigure}[t]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_seconda_2_51.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_2_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_seconda_2_53.dat}{\pimthree}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 7)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_seconda_4_51.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_4_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_seconda_4_53.dat}{\pimthree}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 8)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_seconda_3_51.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_3_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_seconda_3_53.dat}{\pimthree}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green]
+			 table[x=thread,y=speedup]  {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM OpenJDK (Java 7)}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_seconda_2_51.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_2_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_seconda_2_53.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 7)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[b]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_seconda_4_51.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_4_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_seconda_4_53.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM Oracle (Java 8)}
+\end{subfigure}
+\qquad
+\begin{subfigure}[b]{0.3\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_seconda_3_51.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_3_52.dat}{\pimtwo}
+			\pgfplotstableread{tests/pi_seconda_3_53.dat}{\pimthree}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\pimthree};
+			 \addlegendentry{Work unit = 3}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+	\caption{JVM OpenJDK (Java 7)}
+\end{subfigure}
+\end{figure}
+
+\clearpage
+
+% HERE
+
+\begin{figure}
+	\caption{Speedup/thread e tempo/thread su Raspberry Pi, seconda implementazione, contro password di lunghezza 6.}
+\begin{subfigure}[b]{0.48\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			domain=1:8,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+        ]
+			\pgfplotstableread{tests/pi_seconda_2_61.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_4_61.dat}{\pimtwo}
+			\addplot[mark=o,red] 
+			 table[x=thread,y=speedup]  {\pimone};
+			 \addlegendentry{Java 7}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\pimtwo};
+			 \addlegendentry{Java 8}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+\end{subfigure}
+\qquad
+\begin{subfigure}[b]{0.48\textwidth}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/pi_seconda_2_61.dat}{\pimone}
+			\pgfplotstableread{tests/pi_seconda_4_61.dat}{\pimtwo}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimone};
+			 \addlegendentry{Java 7}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimtwo};
+			 \addlegendentry{Java 8}
+			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:8,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+\end{subfigure}
+\end{figure}
+
+\clearpage
+
+\begin{figure*}[h]
+	\caption{Speedup/thread su iMac, seconda implementazione, contro password di lunghezza 5.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			domain=1:16,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+			ymax=9
+        ]
+			\pgfplotstableread{tests/imac_seconda_51.dat}{\imacone}
+			\pgfplotstableread{tests/imac_seconda_52.dat}{\imactwo}
+			\pgfplotstableread{tests/imac_seconda_53.dat}{\imacthree}
+			\pgfplotstableread{tests/imac_seconda_54.dat}{\imacfour}
+			\addplot[mark=o,green] 
+			 table[x=thread,y=speedup]  {\imacone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\imactwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,red]
+			 table[x=thread,y=speedup]  {\imacthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[mark=o,orange]
+			 table[x=thread,y=speedup]  {\imacfour};
+			 \addlegendentry{Work unit = 4}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}
+	\caption{Tempo/thread su iMac, seconda implementazone, contro password di lunghezza 5.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/imac_seconda_51.dat}{\imacone}
+			\pgfplotstableread{tests/imac_seconda_52.dat}{\imactwo}
+			\pgfplotstableread{tests/imac_seconda_53.dat}{\imacthree}
+			\pgfplotstableread{tests/imac_seconda_54.dat}{\imacfour}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\imacone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\imactwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\imacthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[mark=o,orange] table[x=thread,y=tempo] {\imacfour};
+			 \addlegendentry{Work unit = 4}
+			\pgfplotstablegetelem{0}{tempo}\of{\imacone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:16,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:16,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}
+	\caption{Speedup/thread su iMac, seconda implementazione, contro password di lunghezza 6.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			domain=1:16,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+			ymax=9
+        ]
+			\pgfplotstableread{tests/imac_seconda_61.dat}{\imacone}
+			\pgfplotstableread{tests/imac_seconda_62.dat}{\imactwo}
+			\pgfplotstableread{tests/imac_seconda_63.dat}{\imacthree}
+			\pgfplotstableread{tests/imac_seconda_64.dat}{\imacfour}
+			\addplot[mark=o,green] 
+			 table[x=thread,y=speedup]  {\imacone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\imactwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,red]
+			 table[x=thread,y=speedup]  {\imacthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[mark=o,orange]
+			 table[x=thread,y=speedup]  {\imacfour};
+			 \addlegendentry{Work unit = 4}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}
+	\caption{Tempo/thread su iMac, seconda implementazone, contro password di lunghezza 6.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			ymajorgrids,
+			ymin=0.1,
+			xlabel={\# thread},
+			ylabel={tempo ($s$)},
+		]
+			\pgfplotstableread{tests/imac_seconda_61.dat}{\imacone}
+			\pgfplotstableread{tests/imac_seconda_62.dat}{\imactwo}
+			\pgfplotstableread{tests/imac_seconda_63.dat}{\imacthree}
+			\pgfplotstableread{tests/imac_seconda_64.dat}{\imacfour}
+			\addplot[mark=o,blue] table[x=thread,y=tempo] {\imacone};
+			 \addlegendentry{Work unit = 1}
+			\addplot[mark=o,red] table[x=thread,y=tempo] {\imactwo};
+			 \addlegendentry{Work unit = 2}
+			\addplot[mark=o,green] table[x=thread,y=tempo] {\imacthree};
+			 \addlegendentry{Work unit = 3}
+			\addplot[mark=o,orange] table[x=thread,y=tempo] {\imacfour};
+			 \addlegendentry{Work unit = 4}
+			\pgfplotstablegetelem{0}{tempo}\of{\imacone};
+			\pgfmathsetmacro{\yn}{\pgfplotsretval};
+    		\addplot[domain=1:16,dashed,samples=400] (x,{\yn/x});
+			\addplot[domain=1:16,dashed] {\yn/4};
+  		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}
+
+\clearpage
+
+\begin{figure*}
+	\caption{Speedup/thread su iMac, contro i file di benchmark.}
+\resizebox{\textwidth}{!}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			scale only axis,
+			width=\textwidth,
+			height=\textheight/1.1,
+			xtick=data,
+			domain=1:16,
+			ymajorgrids,
+			xlabel={\# thread},
+			ylabel={speedup},
+			ymax=8
+        ]
+			\pgfplotstableread{tests/imac_benchmark_easy.dat}{\bencheasy}
+			\pgfplotstableread{tests/imac_benchmark_medium.dat}{\benchmedium}
+			\pgfplotstableread{tests/imac_benchmark_hard.dat}{\benchhard}
+			\addplot[mark=o,green] 
+			 table[x=thread,y=speedup]  {\bencheasy};
+			 \addlegendentry{easy.txt}
+			\addplot[mark=o,blue] 
+			 table[x=thread,y=speedup]  {\benchmedium};
+			 \addlegendentry{medium.txt}
+			\addplot[mark=o,red]
+			 table[x=thread,y=speedup]  {\benchhard};
+			 \addlegendentry{hard.txt}
+			\addplot[dashed,blue] {x};
+			\addplot[dashed] {4};
+			\node[above] at (axis cs:2,4) {\# processori};
+		\end{axis}
+	\end{tikzpicture}
+	}
+\end{figure*}

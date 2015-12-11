@@ -1,0 +1,87 @@
+prima oracle8 1 2 4 2
+make clean-java
+rm -f ./bin/homework_prima_implementazione/*.class
+rm -f ./bin/homework_seconda_implementazione/*.class
+make oracle8
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_prima_implementazione/MainClass.java
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_seconda_implementazione/MainClass.java
+/usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/jre/bin/java -cp ./bin homework_prima_implementazione/MainClass 1 2 4 2
+java version "1.8.0"
+Java(TM) SE Runtime Environment (build 1.8.0-b132)
+Java HotSpot(TM) Client VM (build 25.0-b70, mixed mode)
+
+Adding password 0
+Adding password f
+Adding password 9
+Adding password 16
+Adding password yo
+Adding password 58
+Adding password 0l
+Adding password 99
+Adding password lbg
+Adding password bw1
+Adding password 2no
+Adding password jeg
+Adding password goc
+Adding password rer
+Adding password 999
+Adding password k1tg
+Adding password djd2
+Adding password vgmm
+Adding password rdfu
+Adding password 8218
+Adding password btso
+Adding password pmk0
+Adding password vddi
+Adding password 9999
+This is the set of hashes we're testing against:
+[cfcd208495d565ef66e7dff9f98764da, 8fa14cdd754f91cc6554c9e71929cce7, 45c48cce2e2d7fbdea1afc51c7c6ad26, c74d97b01eae257e44aa9d5bade97baf, 6d0007e52f7afb7d5a0650b0ffb8a4d1, 66f041e16a60928b05a7e228a89c3799, 66e4d06ed3a7f36895037b0213c8183f, ac627ab1ccbdb62ec96e702f07f6425b, 3d177a338323be591f10c1b45ff7fd7b, 36a76674eb72e8f043d546f490a48e58, 5215ffa17f540004b7d3545f9b3845a8, 4c60de5fc1d2c3ad178b18089792e4dc, 6d4a5d826b43f9417532ad2849c1216e, d66c264e1dbd73e6111d3ffc70908e8e, b706835de79a2b4e80506f582af3676a, 41915eeb27f3630053986c9e43e6004d, f295154cd970fc5e5b86e86fdab406ae, 3b495b228f11d82c6a185bd3ccb8ddc6, 2ea1e35494109495856b6af0bbb3c033, 849a1c356bfd763c1e1112739722515d, 16fcdaba59ef1f42931571fb5d09721a, 1aea37b744d57b2d9096214946ffc0a8, f15b2a067b93d5d11d5abc6cc76a1b8a, fa246d0262c3925617b0c72bb20eeb1d]
+Found password: f
+Found password: 0
+Found password: 9
+Found password: yo
+Found password: 0l
+Found password: 16
+Found password: 58
+Found password: 99
+Found password: bw1
+Found password: goc
+Found password: jeg
+Found password: lbg
+Found password: rer
+Found password: 2no
+Found password: 999
+Found password: btso
+Found password: djd2
+Found password: k1tg
+Found password: pmk0
+Found password: rdfu
+Found password: vddi
+Found password: vgmm
+Found password: 8218
+Found password: 9999
+	Command being timed: "/usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/jre/bin/java -showversion -cp ./bin homework_prima_implementazione/MainClass 1 2 4 2"
+	User time (seconds): 59.10
+	System time (seconds): 0.41
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:59.01
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 20988
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 2989
+	Voluntary context switches: 4021
+	Involuntary context switches: 51
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 112
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

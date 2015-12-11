@@ -1,0 +1,87 @@
+prima openjdk7 3 2 4 2
+make clean-java
+rm -f ./bin/homework_prima_implementazione/*.class
+rm -f ./bin/homework_seconda_implementazione/*.class
+make openjdk7
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/java-7-openjdk-armhf/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_prima_implementazione/MainClass.java
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/java-7-openjdk-armhf/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_seconda_implementazione/MainClass.java
+/usr/lib/jvm/java-7-openjdk-armhf/jre/bin/java -cp ./bin homework_prima_implementazione/MainClass 3 2 4 2
+java version "1.7.0_85"
+OpenJDK Runtime Environment (IcedTea 2.6.1) (7u85-2.6.1-6+deb8u1+rpi1)
+OpenJDK Zero VM (build 24.85-b03, mixed mode)
+
+Adding password r
+Adding password 6
+Adding password 9
+Adding password um
+Adding password jf
+Adding password 5k
+Adding password 6a
+Adding password 99
+Adding password 7wr
+Adding password 8bk
+Adding password sa3
+Adding password 0bm
+Adding password r37
+Adding password swc
+Adding password 999
+Adding password 1q4r
+Adding password fthc
+Adding password nusm
+Adding password ve63
+Adding password 3r8u
+Adding password zuwc
+Adding password 0lgr
+Adding password 7mbj
+Adding password 9999
+This is the set of hashes we're testing against:
+[4b43b0aee35624cd95b910189b3dc231, 1679091c5a880faf6fb5e6087eb1b2dc, 45c48cce2e2d7fbdea1afc51c7c6ad26, 0dd00e33b6fc67b811ebe3177217d6c0, fe0ec43cc4200e777aa2190ace58e7b4, b8ff4dc6d265572f638730b160aec456, 710fb21ac423c385f328faea6380180b, ac627ab1ccbdb62ec96e702f07f6425b, 89f34c5eca15da2aac5e04c5f1f86cb3, 8102c42bb5cc1439612d82251ca23394, 36913123e6f34919c91bacd31650f7ae, ab4674ee7d244af080621e2d88694867, 1a349e3cb3e9cdab4de64a198ea3fea8, 96aa0444f24af54653301824b0334584, b706835de79a2b4e80506f582af3676a, 202799a5a9059c5d7129be5346e390a8, bce3c1995109da70eba26a03f7450743, b0764a20839d6369c31cb7c907a90808, 7dd427198542210bb9af4c7bcf7f0679, 2b0b7892cac51a9bb7daa7a9d5285caf, 4cd1ac3aa81664ea0a89bfe1d45fd308, 454ea28d75994e30cae4ebd4887fbdab, a5971479ce7828bdc33b50434f2d4eac, fa246d0262c3925617b0c72bb20eeb1d]
+Found password: r
+Found password: 6
+Found password: 9
+Found password: jf
+Found password: um
+Found password: 5k
+Found password: 6a
+Found password: 99
+Found password: r37
+Found password: sa3
+Found password: swc
+Found password: 0bm
+Found password: 8bk
+Found password: 7wr
+Found password: 999
+Found password: fthc
+Found password: nusm
+Found password: ve63
+Found password: zuwc
+Found password: 0lgr
+Found password: 1q4r
+Found password: 3r8u
+Found password: 7mbj
+Found password: 9999
+	Command being timed: "/usr/lib/jvm/java-7-openjdk-armhf/jre/bin/java -showversion -cp ./bin homework_prima_implementazione/MainClass 3 2 4 2"
+	User time (seconds): 560.15
+	System time (seconds): 1.09
+	Percent of CPU this job got: 295%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:09.84
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 18328
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 4312
+	Voluntary context switches: 17014
+	Involuntary context switches: 9649
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 296
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

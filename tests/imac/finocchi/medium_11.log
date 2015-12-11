@@ -1,0 +1,15 @@
+java version "1.8.0_66"
+Java(TM) SE Runtime Environment (build 1.8.0_66-b17)
+Java HotSpot(TM) 64-Bit Server VM (build 25.66-b17, mixed mode)
+
+23ba6002aa3583a61db26e957b1fbe43 = MD5(wagner)
+c4fdb9019bcca7e82296952ba3e1895b = MD5(sn0rt)
+56eb473ffd7429b00eb136c80664be30 = MD5(bleah)
+dcaa9fd4f23aaf0c29f540becf35b46f = MD5(crash)
+44fd79ea712293e5b5a7b51aceb6c0a7 = MD5(liszt)
+98f740d68822f4209674ca9f23c20abe = MD5(chopin)
+bbebde933d57f88406bc530e5df0df3a = MD5(sgrunt)
+875a8ec1acd2fa9f02ca152974dfd904 = MD5(tsktsk)
+8dc01b0de0431cb7eced92277c1f04c7 = MD5(bach)
+e842795b282293fd61bc294c49edb12b = MD5(mozart)
+       83.01 real       645.05 user         1.81 sys

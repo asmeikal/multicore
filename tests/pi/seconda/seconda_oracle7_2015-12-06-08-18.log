@@ -1,0 +1,42 @@
+seconda oracle7 4 3 5 3
+make clean-java
+rm -f ./bin/homework_prima_implementazione/*.class
+rm -f ./bin/homework_seconda_implementazione/*.class
+make oracle7
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/jdk-7-oracle-armhf/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_prima_implementazione/MainClass.java
+test -d ./bin || mkdir -p ./bin
+/usr/lib/jvm/jdk-7-oracle-armhf/bin/javac -g -d ./bin -cp ./bin -sourcepath ./src ./src/homework_seconda_implementazione/MainClass.java
+/usr/lib/jvm/jdk-7-oracle-armhf/jre/bin/java -cp ./bin homework_seconda_implementazione/MainClass 4 3 5 3
+java version "1.7.0_40"
+Java(TM) SE Runtime Environment (build 1.7.0_40-b43)
+Java HotSpot(TM) Client VM (build 24.0-b56, mixed mode)
+
+This are the passwords we are looking for:
+[14gg6, 2, 2qgn2, 32, 42agu, 4i, 4p2da, 63, 7ldof, 8ogg, 9, 99, 999, 9999, 99999, anr, bnxe, c3om, cffew, dkhnh, dkjr3, dmdh, dnzxj, f66t, g, gnt, gsos, h31w, jm6us, jy, k, k10t, moh, nm1cd, o3mo, pauzf, pcxl, pky, q7b, s4eb, s8450, tc, tzk, ub4, upokc, wp, xna, xso, ybu27, zu0m]
+This is the set of hashes we're testing against:
+[8ce4b16b22b58894aa86c421e8759df3, c81e728d9d4c2f636f067f89cc14862c, b2f5ff47436671b6e533d8dc3614845d, 45c48cce2e2d7fbdea1afc51c7c6ad26, b6ddd84a9cc636257258701ca934e763, 6364d3f0f495b6ab9dcf8d3b5c6e0b01, 03afdbd66e7929b125f8597834fa83a4, a5725df451c7f086fa3b468201b3b28b, 5c4fefda27cfe84c3999be13e6b8608a, 4e7268e57a109668e83f60927154d812, ac627ab1ccbdb62ec96e702f07f6425b, 457528c43fabd74e212db2ed61101075, a5e669e9a3073f1384994f3b02576748, f9af043363f7bb0620ad0bd5b0ccbb3b, ba1875d3dd4fd23f6b326cc0ab2084d7, 001fc6cf9f0ff28ef4f775f10c3eca36, 93d2f5249e66d3d559aba8ba95dad613, 94e510ecc1b1d7a405c0e7aa18db792b, 21f38e6ca610a12baa280fe93770b5e2, 23ca4d12759adef769191e0d44be33b1, b706835de79a2b4e80506f582af3676a, cfbad931c0d63c64ddc04d05cd9c9cbe, 7164172ef5623c387cd8fbb7efef017f, 4d78a15e0d00fa44456752ec1f80d9a0, f40fb2ee2f5efbe0e4ebb682f8b77ea0, 78d217be558799c0cbe2687a1651f4c0, b2e32d1d7a8d420ac4ee99d042da0f75, b2df30da4673ab6eb63f96f0c59ba213, 58e498e3c8c504a6befb9271031d1b61, 2ecbcb90a291d4ac885f6674330566cd, ef24503618f68a8ad57204145c058f1c, 5624317ea6c6c1a4de29adba4becac84, c529364c32ea68b2f272c682c43bf1c8, fa246d0262c3925617b0c72bb20eeb1d, fbb67c0f3d77f918744ac5a270ecf920, f4c3f1bb3b6afa09fc8148a260477a68, 36e1c5ac65be0eac1a7a5e9b5e0cf27d, 62d2fb889f910024535e316da3ee97da, 464810ae99d2f688c83c3df5c88548de, 34ab179275b7c5c61f1f83cfd557d2f8, 4d81574f039afc85e3181e674ae874db, 2fe40b0c380e0d5e05f20e1863ea1fb3, 8abf0dac35ab7fd373629e5bdadbe3bc, 91a1bd5389ceb4ddac77db0c10bb809c, f6a458bacd3038a5795ac92602a248cd, b4cc2e7b98a787d4129a9dfb9796dcf6, 033bc9674163fc3bcaa08e9f2a4a23cc, 388b3e01266614e3b2ec92561918596c, 0ab74a94f5b3cd4c7f74091ae9c81735, d3eb9a9233e52948740d7eb8c3062d14]
+{cfbad931c0d63c64ddc04d05cd9c9cbe=h31w, 4e7268e57a109668e83f60927154d812=jy, b6ddd84a9cc636257258701ca934e763=wp, 7164172ef5623c387cd8fbb7efef017f=c3om, 62d2fb889f910024535e316da3ee97da=nm1cd, fa246d0262c3925617b0c72bb20eeb1d=9999, 457528c43fabd74e212db2ed61101075=anr, 03afdbd66e7929b125f8597834fa83a4=63, ac627ab1ccbdb62ec96e702f07f6425b=99, 34ab179275b7c5c61f1f83cfd557d2f8=ybu27, 001fc6cf9f0ff28ef4f775f10c3eca36=q7b, 2fe40b0c380e0d5e05f20e1863ea1fb3=jm6us, 8abf0dac35ab7fd373629e5bdadbe3bc=dkhnh, c529364c32ea68b2f272c682c43bf1c8=bnxe, 8ce4b16b22b58894aa86c421e8759df3=k, fbb67c0f3d77f918744ac5a270ecf920=14gg6, 388b3e01266614e3b2ec92561918596c=7ldof, 4d78a15e0d00fa44456752ec1f80d9a0=pcxl, 21f38e6ca610a12baa280fe93770b5e2=pky, 58e498e3c8c504a6befb9271031d1b61=f66t, ef24503618f68a8ad57204145c058f1c=o3mo, a5e669e9a3073f1384994f3b02576748=gnt, 464810ae99d2f688c83c3df5c88548de=2qgn2, f6a458bacd3038a5795ac92602a248cd=upokc, c81e728d9d4c2f636f067f89cc14862c=2, 94e510ecc1b1d7a405c0e7aa18db792b=moh, 93d2f5249e66d3d559aba8ba95dad613=xso, 5624317ea6c6c1a4de29adba4becac84=gsos, f4c3f1bb3b6afa09fc8148a260477a68=42agu, 91a1bd5389ceb4ddac77db0c10bb809c=dnzxj, 23ca4d12759adef769191e0d44be33b1=tzk, 0ab74a94f5b3cd4c7f74091ae9c81735=4p2da, b2f5ff47436671b6e533d8dc3614845d=g, 6364d3f0f495b6ab9dcf8d3b5c6e0b01=32, 78d217be558799c0cbe2687a1651f4c0=dmdh, 2ecbcb90a291d4ac885f6674330566cd=zu0m, b2e32d1d7a8d420ac4ee99d042da0f75=k10t, 4d81574f039afc85e3181e674ae874db=dkjr3, f9af043363f7bb0620ad0bd5b0ccbb3b=xna, b2df30da4673ab6eb63f96f0c59ba213=8ogg, 45c48cce2e2d7fbdea1afc51c7c6ad26=9, f40fb2ee2f5efbe0e4ebb682f8b77ea0=s4eb, 36e1c5ac65be0eac1a7a5e9b5e0cf27d=pauzf, 033bc9674163fc3bcaa08e9f2a4a23cc=s8450, 5c4fefda27cfe84c3999be13e6b8608a=tc, d3eb9a9233e52948740d7eb8c3062d14=99999, a5725df451c7f086fa3b468201b3b28b=4i, b706835de79a2b4e80506f582af3676a=999, ba1875d3dd4fd23f6b326cc0ab2084d7=ub4, b4cc2e7b98a787d4129a9dfb9796dcf6=cffew}
+	Command being timed: "/usr/lib/jvm/jdk-7-oracle-armhf/jre/bin/java -showversion -cp ./bin homework_seconda_implementazione/MainClass 4 3 5 3"
+	User time (seconds): 256.12
+	System time (seconds): 1.92
+	Percent of CPU this job got: 377%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:08.30
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 18296
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 3856
+	Voluntary context switches: 5660
+	Involuntary context switches: 3919
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 144
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
