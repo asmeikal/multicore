@@ -1,5 +1,6 @@
 bin
 *.*
+!Makefile*
 !*.tex
 !multicore.bib
 !*.txt
@@ -7,4 +8,7 @@ bin
 !*.awk
 !*.sh
 output.txt
+!*.sql
+!tests/**/*.log
+!*.dat
 
