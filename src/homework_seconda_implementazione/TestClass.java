@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class MainClass
+public class TestClass
 {
 	public static void main(String args[]) throws InterruptedException
 	{
