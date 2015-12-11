@@ -1,5 +1,6 @@
 
 .PHONY: all
+main: all
 
 JC=javac
 JFLAGS=-g
