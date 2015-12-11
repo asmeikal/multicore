@@ -59,6 +59,8 @@ public class MainClass
 		Master m = new Master(passwords, alphabet, n_threads, length);
 		Map<String, String> result = m.work();
 
-		System.out.println(result);
+		for (String key : result.keySet()) {
+			System.out.println(key + " = MD5(" + result.get(key) + ")");
+		}
 	}
 }
