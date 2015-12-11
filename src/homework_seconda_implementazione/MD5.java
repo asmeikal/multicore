@@ -19,6 +19,9 @@ public class MD5
 
 	static byte[] StringToByteArray(String s)
 	{
+		if (s.length() != 32) {
+			throw new RuntimeException("La stringa \"" + s + "\" non sembra rappresentare un hash MD5.");
+		}
 		byte[] r = new byte[s.length() / 2];
 		for (int i = 0; i < s.length() / 2; ++i) {
 			r[i] = (byte) Integer.valueOf(s.substring(i * 2, (i * 2) + 2), 16).intValue();
