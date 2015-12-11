@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.nio.charset.Charset;
 
 public class Main
 {
@@ -22,7 +23,7 @@ public class Main
 
 		final String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 		int processors = Runtime.getRuntime().availableProcessors();
-		List<String> list = Files.readAllLines(path);
+		List<String> list = Files.readAllLines(path, Charset.forName("US-ASCII"));
 		ArrayList<String> passwords = new ArrayList<String>(list);
 
 		Master master = new Master(passwords, alphabet, processors, 2);
