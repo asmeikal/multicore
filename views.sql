@@ -1,59 +1,113 @@
 
 
-create or replace view tempisequenziali
-as
-select piattaforma, implementazione, versione, lpass, nmaster, avg(tempo) as "tempo"
-from test
-where nthread = 1
-group by piattaforma, implementazione, versione, lpass, nmaster;
+CREATE OR REPLACE VIEW tempisequenziali AS
+SELECT 		piattaforma,
+			implementazione,
+			versione,
+			lpass,
+			nmaster,
+			AVG(tempo) AS "tempo"
+FROM	 	test
+WHERE 		nthread = 1
+GROUP BY 	piattaforma,
+			implementazione,
+			versione,
+			lpass,
+			nmaster;
 
-create or replace view tempi as
-select piattaforma, implementazione, versione, lpass, nthread, nmaster, avg(tempo) as "tempo", extract(epoch from greatest(max(tempo) - avg(tempo), avg(tempo) - min(tempo))) as "dev", cast(avg(pcpu) as decimal(6,2))::text || '%' as "pcpu"
-from test
-group by piattaforma, implementazione, versione, lpass, nthread, nmaster;
+CREATE OR REPLACE VIEW tempi AS
+SELECT 		piattaforma,
+			implementazione,
+			versione,
+			lpass,
+			nthread,
+			nmaster,
+			AVG(tempo) AS "tempo",
+			EXTRACT(epoch FROM GREATEST(MAX(tempo) - AVG(tempo), AVG(tempo) - MIN(tempo))) AS "dev",
+			CAST(AVG(pcpu) AS decimal(6,2))::text || '%' AS "pcpu"
+FROM 		test
+GROUP BY 	piattaforma,
+			implementazione,
+			versione,
+			lpass,
+			nthread,
+			nmaster;
 
-create or replace view speedup as
-select t1.piattaforma, t1.implementazione, t1.versione, t1.lpass, t1.nthread, t1.nmaster, (extract(epoch from t2.tempo) / extract(epoch from t1.tempo)) as "speedup"
-from tempi as t1
-join tempisequenziali as t2
-on t1.piattaforma = t2.piattaforma
-and t1.implementazione = t2.implementazione
-and t1.versione = t2.versione
-and t1.lpass = t2.lpass
-and t1.nmaster = t2.nmaster;
+CREATE OR REPLACE VIEW speedup AS
+SELECT 		t1.piattaforma,
+			t1.implementazione,
+			t1.versione,
+			t1.lpass,
+			t1.nthread,
+			t1.nmaster,
+			EXTRACT(epoch FROM t2.tempo) / EXTRACT(epoch FROM t1.tempo) AS "speedup"
+FROM 		tempi AS t1
+JOIN 		tempisequenziali AS t2
+	ON 		t1.piattaforma = t2.piattaforma
+	AND 	t1.implementazione = t2.implementazione
+	AND 	t1.versione = t2.versione
+	AND 	t1.lpass = t2.lpass
+	AND 	t1.nmaster = t2.nmaster;
 
-create or replace function getdata(text, integer, integer, integer, integer)
-returns table (threads integer, tempo interval, "tempo (s)" decimal(6,2), "deviazione (s)" decimal(6,2), speedup decimal(6,2), "uso cpu" text) as
+CREATE OR REPLACE VIEW testlist AS
+SELECT 		implementazione,
+			piattaforma,
+			versione,
+			lpass,
+			COUNT(*) AS "# test",
+			MIN(nthread)::text || '-' || MAX(nthread)::text AS "# thread",
+			ARRAY_AGG(DISTINCT(nmaster)) AS "nmaster"
+FROM 		test
+GROUP BY 	piattaforma,
+			implementazione,
+			versione,
+			lpass
+ORDER BY 	implementazione,
+			piattaforma,
+			lpass,
+			versione;
+
+CREATE OR REPLACE VIEW tempi_finocchi AS
+SELECT 		t.difficulty,
+			t.nthread,
+			t.tempo,
+			CAST(EXTRACT(epoch FROM t.tempo) AS decimal(10,2)) AS "tempo (s)",
+			EXTRACT(epoch FROM (SELECT tempo FROM finocchi WHERE nthread = 1 AND difficulty = t.difficulty)) /
+			EXTRACT(epoch FROM t.tempo) AS "speedup"
+FROM 		finocchi AS t
+ORDER BY 	t.difficulty, t.nthread;
+
+CREATE OR REPLACE FUNCTION getdata(text, integer, integer, integer, integer)
+RETURNS TABLE (	threads integer,
+				tempo interval,
+				"tempo (s)" decimal(6,2),
+				"deviazione (s)" decimal(6,2),
+				speedup decimal(6,2),
+				"uso cpu" text
+				) AS
 $BODY$
-declare
-p alias for $1;
-i alias for $2;
-l alias for $3;
-m alias for $4;
-v alias for $5;
-begin
-	return query select s.nthread, t.tempo, cast(extract(epoch from t.tempo) as decimal(6,2)), cast(t.dev as decimal(6,2)), cast(s.speedup as decimal(6,2)), t.pcpu
-	from speedup as s
-	natural join tempi as t
-	where s.piattaforma = p
-	and s.implementazione = i
-	and s.lpass = l
-	and s.nmaster = m
-	and s.versione = v
-	order by s.nthread;
-end
+DECLARE
+p ALIAS FOR $1;
+i ALIAS FOR $2;
+l ALIAS FOR $3;
+m ALIAS FOR $4;
+v ALIAS FOR $5;
+BEGIN
+	RETURN QUERY
+	SELECT 			s.nthread,
+					t.tempo,
+					CAST(EXTRACT(epoch FROM t.tempo) AS decimal(6,2)),
+					CAST(t.dev AS decimal(6,2)),
+					CAST(s.speedup AS decimal(6,2)),
+					t.pcpu
+	FROM 			speedup AS s
+	NATURAL JOIN 	tempi AS t
+	WHERE 			s.piattaforma = p
+		AND 		s.implementazione = i
+		AND 		s.lpass = l
+		AND 		s.nmaster = m
+		AND 		s.versione = v
+	ORDER BY 		s.nthread;
+END
 $BODY$
-language plpgsql;
-
-create or replace view testlist
-as
-select implementazione, piattaforma, versione, lpass, count(*) as "# test", min(nthread)::text || '-' || max(nthread)::text as "# thread", array_agg(distinct(nmaster)) as "nmaster"
-from test group by piattaforma, implementazione, versione, lpass
-order by implementazione, piattaforma, lpass, versione;
-
-create or replace view tempi_finocchi
-as
-select t.difficulty, t.nthread, t.tempo, (cast(extract(epoch from t.tempo) as decimal(10,2))) as "tempo (s)", (extract(epoch from (select tempo from finocchi where nthread = 1 and difficulty = t.difficulty)) / extract(epoch from t.tempo)) as "speedup"
-from finocchi as t
-order by t.difficulty, t.nthread;
-
+LANGUAGE plpgsql;
