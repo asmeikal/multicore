@@ -35,7 +35,7 @@ La password che cerchiamo \`e una parola di $\Sigma^{\star}$ (l'insieme di tutte
 L'idea algoritmica \`e la seguente: si enumerano tutte le stringhe in ordine quasi lessicografico (ordinandole prima per lunghezza, poi lessicograficamente), e si controlla se ciascuna di queste \`e la password cercata.
 Se $n$ \`e la lunghezza della password, questo approccio permette di trovarla controllando non pi\`u di $\sum_{i = 1}^{n} \xi^i \simeq \xi^n$ stringhe.
 
-Un'implementazione algoritmica \`e scegliere di creare un numero ``infinito'' di thread, assegnando a ciascuno una parola, e schedulare per primi i thread a cui \`e stata data una parola che viene prima nel nostro ordinamento.
+L'implementazione ideale \`e scegliere di creare un numero ``infinito'' di thread, assegnando a ciascuno una parola, e schedulare per primi i thread a cui \`e stata data una parola che viene prima nel nostro ordinamento.
 Il programma termina nel momento in cui un thread trova la stringa corrispondente alla password.
 
 Possiamo rappresentare l'esecuzione dell'algoritmo ideale con un DAG (diretto verso il basso), in cui ogni nodo rappresenta un thread, e un arco orientato $(a,b)$ rappresenta la relazione ``$a$ termina prima dell'inizio di $b$''.
@@ -181,7 +181,7 @@ I computer su cui abbiamo testato l'algoritmo sono:
 \begin{itemize}
 	\item un Raspberry Pi 2 Model B, con CPU ``900 MHz quad-core ARM Cortex-A7'' secondo wikipedia \cite{wikipi};
 	\item un computer fisso con processore ``Intel Core i5 (650) 3.2 GhZ dual-core'', con hyperthreading (e possibilit\`a di disattivarlo);
-	\item un iMac $27''$ ``11,1'' con processore ``Intel Core i7 (860) 2.8 GHz quad-core''.
+	\item un iMac $27''$ ``11,1'' con processore ``Intel Core i7 (860) 2.8 GHz quad-core'', con hyperthreading.
 \end{itemize}
 
 Nei test condotti abbiamo fissato un tetto alla lunghezza della password e generato password casuali fino a questa lunghezza, assieme all'ultima password in ordine quasi lessicografico di quella lunghezza.
@@ -242,7 +242,7 @@ Le ottimizzazioni che abbiamo implementato sono le seguenti:
 	Per $n$ sufficientemente grandi \`e un vantaggio rispetto a una ricerca lineare su una struttura non ordinata: per ogni parola bisognerebbe controllare tutti gli $n$ hash, dato che la probabilit\`a di trovare una password \`e molto bassa.
 	\item l'insieme di password, mantenuto dal \code{Master}, non viene copiato da \code{getPasswords}: il metodo ritorna (senza sincronizzazione) il riferimento all'insieme del master.
 	Nel momento in cui viene trovata una password, il master si occupa (con sincronizzazione) di duplicare l'insieme di password, rimuovere la password trovata, e di cambiare il proprio riferimento.
-	
+
 	L'implementazione del metodo \code{foundPassword} non lascia l'insieme di password in uno stato intermedio e non corretto: per questo siamo portati a concludere che il metodo \code{getPasswords} non ritorner\`a mai un insieme di password in uno stato inconsistente.
 \end{itemize}
 
@@ -278,7 +278,7 @@ Le considerazioni sono molto parziali: l'hyperthreading complica l'interpretazio
 L'algoritmo non ha problemi di fiducia: nel momento in cui assegna un inseme di parole a un thread, assume che questo le controlli tutte.
 Se eseguito su pi\`u computer l'algoritmo deve tenere traccia degli insiemi di parole che ha distribuito per assegnare a un nuovo \emph{worker} insiemi che restano ``orfani'' in caso di fallimenti.
 
-Ci sono poi alcune ottimizzazioni che non abbiamo considerato, preferendo un'implementazione semplice e un'analisi maggiore dell'algoritmo.
+Ci sono poi alcune ottimizzazioni che non abbiamo considerato, preferendo un'implementazione semplice che ci permettesse di concentrarci sull'analisi dell'algoritmo.
 Una su tutte \`e quella di interrompere i thread nel momento in cui tutte le password sono state trovate, eliminando il problema della ``coda'' di esecuzione.
 
 \subsection{Esecuzione dell'algoritmo}
@@ -293,4 +293,3 @@ Visti i risultati ottenuti, il \code{Main} indicato sopra esegue l'algoritmo con
 \printbibliography
 
 \end{document}
-
