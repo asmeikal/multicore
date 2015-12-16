@@ -13,4 +13,5 @@ output.txt
 !*.dat
 !homework-1
 !homework-1/*.pdf
+!*.ods
 
