@@ -32,7 +32,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 7)}
+	\caption{JVM Oracle (1.7)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[t]{0.3\textwidth}
@@ -65,7 +65,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 8)}
+	\caption{JVM Oracle (1.8)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[t]{0.3\textwidth}
@@ -98,7 +98,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM OpenJDK (Java 7)}
+	\caption{JVM OpenJDK}
 \end{subfigure}
 \\
 \begin{subfigure}[b]{0.3\textwidth}
@@ -129,7 +129,7 @@
   		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 7)}
+	\caption{JVM Oracle (1.7)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[b]{0.3\textwidth}
@@ -160,7 +160,7 @@
   		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 8)}
+	\caption{JVM Oracle (1.8)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[b]{0.3\textwidth}
@@ -191,7 +191,7 @@
   		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM OpenJDK (Java 7)}
+	\caption{JVM OpenJDK}
 \end{subfigure}
 \end{figure}
 
@@ -425,7 +425,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 7)}
+	\caption{JVM Oracle (1.7)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[t]{0.3\textwidth}
@@ -458,7 +458,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 8)}
+	\caption{JVM Oracle (1.8)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[t]{0.3\textwidth}
@@ -491,7 +491,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM OpenJDK (Java 7)}
+	\caption{JVM OpenJDK}
 \end{subfigure}
 \\
 \begin{subfigure}[b]{0.3\textwidth}
@@ -522,7 +522,7 @@
   		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 7)}
+	\caption{JVM Oracle (1.7)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[b]{0.3\textwidth}
@@ -553,7 +553,7 @@
   		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM Oracle (Java 8)}
+	\caption{JVM Oracle (1.8)}
 \end{subfigure}
 \qquad
 \begin{subfigure}[b]{0.3\textwidth}
@@ -584,7 +584,7 @@
   		\end{axis}
 	\end{tikzpicture}
 	}
-	\caption{JVM OpenJDK (Java 7)}
+	\caption{JVM OpenJDK}
 \end{subfigure}
 \end{figure}
 
@@ -610,10 +610,10 @@
 			\pgfplotstableread{tests/pi_seconda_4_61.dat}{\pimtwo}
 			\addplot[mark=o,red] 
 			 table[x=thread,y=speedup]  {\pimone};
-			 \addlegendentry{Java 7}
+			 \addlegendentry{1.7}
 			\addplot[mark=o,blue] 
 			 table[x=thread,y=speedup]  {\pimtwo};
-			 \addlegendentry{Java 8}
+			 \addlegendentry{1.8}
 			\addplot[dashed,blue] {x};
 			\addplot[dashed] {4};
 			\node[above] at (axis cs:2,4) {\# processori};
@@ -637,9 +637,9 @@
 			\pgfplotstableread{tests/pi_seconda_2_61.dat}{\pimone}
 			\pgfplotstableread{tests/pi_seconda_4_61.dat}{\pimtwo}
 			\addplot[mark=o,red] table[x=thread,y=tempo] {\pimone};
-			 \addlegendentry{Java 7}
+			 \addlegendentry{1.7}
 			\addplot[mark=o,blue] table[x=thread,y=tempo] {\pimtwo};
-			 \addlegendentry{Java 8}
+			 \addlegendentry{1.8}
 			\pgfplotstablegetelem{0}{tempo}\of{\pimone};
 			\pgfmathsetmacro{\yn}{\pgfplotsretval};
     		\addplot[domain=1:8,dashed,samples=400] (x,{\yn/x});
