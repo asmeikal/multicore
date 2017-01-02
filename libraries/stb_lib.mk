@@ -1,5 +1,5 @@
 # stb library
 # available at github.com/nothings/stb
 
-STB_DIR = /Users/michele/Developer/C/Utils/stb
+STB_DIR = ${HOME}/Developer/c/utils/stb
 

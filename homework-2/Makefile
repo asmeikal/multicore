@@ -37,22 +37,22 @@ CFLAGS = -g -fno-builtin --std=c99 --pedantic --pedantic-errors -Wall -Wextra -W
 
 UNAME = $(shell uname)
 
-ifeq ($(UNAME), Darwin)
-BIN_FLAGS = -framework OpenCL
-else
-BIN_FLAGS = -lOpenCL
-endif
+#ifeq ($(UNAME), Darwin)
+#BIN_FLAGS = -framework OpenCL
+#else
+#BIN_FLAGS = -lOpenCL
+#endif
 
 #CLFAGS += $(CFLAGS_PRODUCTION)
 
-all: $(BINS) $(LATEX)
+all: $(BINS) #$(LATEX)
 
 $(LATEX): $(LATEX:.pdf=.tex)
 	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make $(CURR_DIR)/$(@F:.pdf=.tex)
 
 $(BINS): $(OBJS)
 	test -d $(BIN_DIR) || mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $(BIN_FLAGS) $(OBJ_DIR)/homework_utils.o $(OBJ_DIR)/$(@F).o $(LIBRARIES) -lmlutils -lMCLabUtils -lmlclut -o $@
+	$(CC) $(CFLAGS) $(BIN_FLAGS) $(OBJ_DIR)/homework_utils.o $(OBJ_DIR)/$(@F).o $(LIBRARIES) -lmlclut -lmlutils -lMCLabUtils -lOpenCL -lm -o $@
 
 $(OBJS): $(SRCS)
 	test -d $(OBJ_DIR) || mkdir -p $(OBJ_DIR)

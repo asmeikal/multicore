@@ -1,6 +1,6 @@
 # personal utilities stuff
 
-MLUTILS = $(shell echo ${MLUTILSDIR})
+MLUTILS = ${HOME}/Developer/c/utils/c-utils
 
 ML_INCLUDE = $(MLUTILS)/include
 ML_LIB = $(MLUTILS)/lib
